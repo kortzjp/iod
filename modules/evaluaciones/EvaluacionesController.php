@@ -8,6 +8,8 @@ require_once 'EvaluacionesModel.php';
 
 require_once './modules/curso/CursoModel.php';
 require_once './modules/alumno/AlumnoModel.php';
+require_once './modules/reportes/ReportesModel.php';
+
 
 class EvaluacionesController {
 
@@ -169,9 +171,9 @@ class EvaluacionesController {
         $grupo = $_POST['grupo'];
         
         $reportesModelo = new ReportesModel();
-        $alumnos = $reportesModelo->lista($grupo, $_POST['estado']);
+        $alumnos = $reportesModelo->lista($grupo, $_POST['cuatrimestre']);
 
-        $calificaciones = new ReportesController();
+        $calificaciones = new ReportesModel();
         $listacursos = $calificaciones->lista_asignaturas($_POST['grupo'], $_SESSION['cuatrimestre']);
     }
 
