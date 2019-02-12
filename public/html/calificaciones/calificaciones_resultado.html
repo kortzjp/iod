@@ -1,0 +1,90 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            PROMEDIOS PARCIALES DEL GRUPO {grupo}
+        </h1>
+
+    </section>
+
+    <!-- Main content -->
+    <section class="content container-fluid">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+
+                    <!-- /.box-header -->
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table table-hover">
+                            <tr>
+                                <th>ASIGNATURA</th>
+                                <th>DOCENTE</th>
+                                <th>NO. ALUMNOS</th>
+                                <th> 1 </th>
+                                <th> 2 </th>
+                                <th> 3 </th>
+                                <th> PROMEDIO </th>
+                            </tr>
+                            <!--ASIGNATURAS-->
+                            <tr>                
+                                <td>{asignatura}</td>
+                                <td>{docente}</td>
+                                <td>{alumnos{id}}</td>
+                                <td>{parcial1{id}}</td>                
+                                <td>{parcial2{id}}</td>                
+                                <td>{parcial3{id}}</td>
+                                <td>{promedio{id}}</td>
+                            </tr>
+                            <!--ASIGNATURAS-->
+                        </table>
+
+
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+                <br>
+                <div id="grafica_cuadrante_1"></div>
+                <br>
+            </div>
+        </div>
+
+
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', {'packages': ['line']});
+    google.charts.setOnLoadCallback(grafica_c1);
+    function grafica_c1() {
+
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Asignaturas');
+    data.addColumn('number', 'PARCIAL 1');
+    data.addColumn('number', 'PARCIAL 2');
+    data.addColumn('number', 'PARCIAL 3');
+    data.addRows([
+            // <!--GRAFICA_C1-->
+            ['{asignatura}', {parcial1{id}}, {parcial2{id}}, {parcial3{id}} ],
+            // <!--GRAFICA_C1-->
+            ]);
+    var options = {
+    chart: {
+    title: 'GRAFICA PROMEDIOS PARCIAL DEL GRUPO {grupo}'
+            },
+            legend: { position: 'bottom'},
+            width: 1350,
+            height: 500,
+            colors:['green', 'blue', 'orange']
+
+            };
+    var chart = new google.charts.Line(document.getElementById('grafica_cuadrante_1'));
+    chart.draw(data, google.charts.Line.convertOptions(options));
+    }
+
+</script>

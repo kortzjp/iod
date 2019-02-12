@@ -1,0 +1,58 @@
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-success">
+            <div class="box-header">
+                <h3 class="box-title">Lista de alumnos en el Curso</h3>
+                <div class="box-tools">
+                    <div class="input-group input-group-sm" style="width: 150px;">
+
+                    </div>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive no-padding">
+
+                <table class="table table-hover">
+                    <tr>
+                        <th>Matrícula</th>
+                        <th>Nombre</th>
+                        <th>Estado</th>
+                        <th>Eliminar</th>
+                    </tr>
+
+                    <!--LISTA_ALUMNOS-->
+                    <tr>
+                        <td>{matricula}</td>
+                        <td>{nombre}</td>
+                        <td>
+                            {estado}
+                        </td>
+                        <td> 
+                            <form action="/alumno/eliminar_del_curso" method="post">                                
+                                <input type="hidden" name="alumno" value="{id}">
+                                <input type="hidden" name="curso" value="{curso}">
+                                <div class="input-group-btn">
+                                    
+                                    <button type="submit" class="btn btn-danger"><i class="fa fa-close"></i></button>
+                                    
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                    <!--LISTA_ALUMNOS-->
+                </table>
+
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+</div>
+
+</section>
+<!-- /.content -->
+
+</div>
+<!-- /.content-wrapper -->
+

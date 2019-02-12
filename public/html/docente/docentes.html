@@ -1,0 +1,207 @@
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Docentes
+            <small>Crear</small>
+        </h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content container-fluid">
+
+        <div class="row">
+            <div class="col-xs-12">
+            <div class="callout {tipo}">                
+                <p>{mensaje}</p>
+              </div>
+            </div>
+         </div>
+        
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Lista de Docentes</h3>
+                        <div class="box-tools">
+                            <div class="input-group input-group-sm" style="width: 150px;">
+
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-info">
+                                        Nuevo Docente
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table table-hover">
+                            <tr>
+                                <th>ID</th>
+                                <th>Usuario</th>
+                                <th>Nombre</th>
+                                <th>Correo Electrónico</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                            <!--LISTA_DOCENTES-->
+                            <tr>
+                                <td>{id}</td>
+                                <td>{usuario}</td>
+                                <td>{nombre}</td>
+                                <td>{correo}</td>
+                                <td>{activacion}</td>
+                                <td>
+                                    <div class="input-group-btn">
+                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-info{id}">
+                                        <i class="fa fa-fw fa-pencil"></i>
+                                    </button>
+                                </div>
+                                </td>
+                            </tr>
+                            <!--LISTA_DOCENTES-->
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+
+    </section>
+    <!-- /.content -->
+
+    <div class="modal in" id="modal-info">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Datos del nuevo Docente</h4>
+                </div>
+                <form action="/docente/crear/" method="post" class="form-horizontal" autocomplete="off">
+                    <div class="modal-body">
+                        <div class="box-body">
+
+                            <div class="form-group">
+                                <label for="usuario" class="col-sm-2 control-label">Usuario</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="usuario" class="form-control" id="usaurio" placeholder="Docente" required />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="nombre" class="col-sm-2 control-label">Nombre</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Nombre Completo" required />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="correo" class="col-sm-2 control-label">Correo</label>
+                                <div class="col-sm-10">
+                                    <input type="email" name="correo" class="form-control" id="correo" placeholder="docente@correo.com" required />
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Estado</label>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="estado" value="1" checked required />
+                                        Activo
+                                    </label>
+                                
+                                    <label>
+                                        <input type="radio" name="estado" value="0" required />
+                                        Inactivo
+                                    </label>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Guardar</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    
+    <!--DOCENTES_EDITAR-->
+    <div class="modal in" id="modal-info{id}">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Datos del Docente</h4>
+                </div>
+                <form action="/docente/guardar/" method="post" class="form-horizontal" autocomplete="off">
+                    <div class="modal-body">
+                        <div class="box-body">
+
+                            <div class="form-group">
+                                <label for="usuario" class="col-sm-2 control-label">Usuario</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="usuario" value="{usuario}" class="form-control" id="clave" placeholder="Docente" required />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="nombre" class="col-sm-2 control-label">Nombre</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="nombre" value="{nombre}" class="form-control" id="nombre" placeholder="Nombre Completo" required />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="correo" class="col-sm-2 control-label">Correo</label>
+                                <div class="col-sm-10">
+                                    <input type="email" name="correo" value="{correo}" class="form-control" id="correo" required />
+                                </div>
+                            </div>
+           
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Estado</label>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="estado" value="1" checked required />
+                                        Activo
+                                    </label>
+                                
+                                    <label>
+                                        <input type="radio" name="estado" value="0" required />
+                                        Inactivo
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+ 
+                    <input type="hidden" name="id" value="{id}" />
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Guardar</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!--DOCENTES_EDITAR-->
+
+</div>
+<!-- /.content-wrapper -->
+

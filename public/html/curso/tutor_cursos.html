@@ -1,0 +1,189 @@
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Gestión de Cursos
+            <!--<small>Crear</small>-->
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Cursos</a></li>
+            <li class="active">Inicio</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content container-fluid">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="callout {tipo}">                
+                    <p>{mensaje}</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Lista de Cursos</h3>
+                        <div class="box-tools">
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-info">
+                                        Nuevo Curso
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table table-hover">
+                            <tr>
+                                <th>GRUPO</th>
+                                <th>ASIGNATURA</th>                                
+                                <th>DOCENTE</th>                                
+                                <th>ACCIONES</th>
+                            </tr>
+                            <!--LISTA_CURSOS-->
+                            <tr>
+                                <td>{grupo}</td>
+                                <td>{asignatura}</td>
+                                <td>{docente}</td>                                
+                                <td> Actualizar - Eliminar </td>                                                                
+                            </tr>
+                            <!--LISTA_CURSOS-->
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+
+    </section>
+    <!-- /.content -->
+    <div class="modal fade in" id="modal-info">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Datos del nuevo Curso</h4>
+                </div>
+                <form action="/curso/crear/" method="post" class="form-horizontal" autocomplete="off">
+                    <div class="modal-body">
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <!--<label class="col-sm-2 control-label">Cuatrimestre</label>-->
+                                        <div class="col-sm-10">
+                                            <select class="form-control" name="cuatrimestre" required >
+                                                <option value="">Cuatrimestre</option>
+                                                <!--LISTA_CUATRIMESTRE-->
+                                                <option value="{id}">{nombre}</option>
+                                                <!--LISTA_CUATRIMESTRE-->
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <!--<label class="col-sm-2 control-label">Asignatura</label>-->
+                                        <div class="col-sm-10">
+                                            <select class="form-control" name="asignatura" required >
+                                                <option value="">Asignatura</option>
+                                                <!--LISTA_ASIGNATURAS-->
+                                                <option value="{id}">{nombre}</option>
+                                                <!--LISTA_ASIGNATURAS-->
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <!--<label class="col-sm-2 control-label">Docente</label>-->
+                                        <div class="col-sm-10">
+                                            <select class="form-control" name="docente">
+                                                <option value="">Docente</option>
+                                                <!--LISTA_DOCENTES-->
+                                                <option value="{id}">{nombre}</option>
+                                                <!--LISTA_DOCENTES-->
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <!--<label class="col-sm-2 control-label">Grupo</label>-->
+
+                                        <div class="col-sm-10">
+                                            <input type="text" name="grupo" class="form-control text-uppercase" id="grupo" placeholder="GRUPO" required />
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Horario</label>
+                                    <div class="form-group">
+                                        <label class="col-sm-5 control-label">Lunes</label>
+                                        <div class="col-sm-7">
+                                            <input type="time" name="lunes"   min="07:00" max="20:00" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-5 control-label">Martes</label>
+                                        <div class="col-sm-7">
+                                            <input type="time" name="martes"   min="07:00" max="20:00" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        
+                                        <label class="col-sm-5 control-label">Miércoles</label>
+                                        <div class="col-sm-7">
+                                            <input type="time" name="miercoles"   min="07:00" max="20:00" />
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        
+                                        <label class="col-sm-5 control-label">Jueves</label>
+                                        <div class="col-sm-7">
+                                            <input type="time" name="jueves" min="07:00" max="20:00" />
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        
+                                        <label class="col-sm-5 control-label">Viernes</label>
+                                        <div class="col-sm-7">
+                                            <input type="time" name="viernes"   min="07:00" max="20:00" />
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        
+                                        <label class="col-sm-5 control-label">Sábado</label>
+                                        <div class="col-sm-7">
+                                            <input type="time" name="sabado"   min="07:00" max="20:00" />
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-success">Guardar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+</div>
+<!-- /.content-wrapper -->
+

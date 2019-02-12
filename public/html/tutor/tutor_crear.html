@@ -1,0 +1,93 @@
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Page Header
+            <small>Optional description</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+            <li class="active">Here</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content container-fluid">
+        <div class="col-md-6">
+
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Horizontal Form</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form action="/tutor/guardar/" method="post" class="form-horizontal">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="inputUsuario" class="col-sm-2 control-label">Usuario</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" name="usuario" class="form-control" id="inputUsuario" placeholder="Nombre de usuario" required="">
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputUsuario" class="col-sm-2 control-label">Nombre</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" name="nombre" class="form-control" id="inputUsuario" placeholder="Nombre de completo" required="">
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword" class="col-sm-2 control-label">Password</label>
+
+                            <div class="col-sm-10">
+                                <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Minimo 6 caracteres" required="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputEstado" class="col-sm-2 control-label">Estado</label>
+
+                            <div class="col-sm-10">
+                                <select class="form-control" name="carrera" required>
+                                    <option value="">Selecciona una carrera</option>
+                                    <!--LISTA_CARRERAS-->
+                                    <option value="{id}">{siglas} - {nombre}</option>
+                                    <!--LISTA_CARRERAS-->
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEstado" class="col-sm-2 control-label">Estado</label>
+
+                            <div class="col-sm-10">
+                                <label>
+                                    <input type="radio" name="estado" id="optionsRadios" value="1" checked="">
+                                    Activo
+                                </label>
+                                <label>
+                                    <input type="radio" name="estado" id="optionsRadios" value="0" >
+                                    Inactivo
+                                </label>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">                
+                        <button type="submit" class="btn btn-info pull-right">Sign in</button>
+                    </div>
+                    <!-- /.box-footer -->
+                </form>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->

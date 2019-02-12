@@ -1,0 +1,109 @@
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Gestión de Alumnos de {asignatura} del {grupo}            
+        </h1>
+
+    </section>
+
+    <!-- Main content -->
+    <section class="content container-fluid">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="callout {tipo}">                
+                    <p>{mensaje}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-6">
+                <!-- Horizontal Form -->
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Buscar por Generación</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form action="/docente/lista_alumnos/{curso}" method="post" class="form-horizontal">
+                        <div class="box-body">
+
+                            <div class="form-group">
+                                <label for="matricula" class="col-sm-2 control-label">Carrera</label>
+                                <div class="col-sm-10">
+                                    <select name="carrera" required >
+                                        <option value="" >Selecciona una Carrera</option>
+                                        <!--LISTA_CARRERAS-->
+                                        <option value="{id}">{siglas} - {nombre}</option>
+                                        <!--LISTA_CARRERAS-->
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="generacion" class="col-sm-2 control-label">Generación</label>
+                                <div class="col-sm-10">
+                                    <input type="number" name="generacion" min="14" max="99" id="generacion" required />
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <button type="submit" name="buscar_g" class="btn btn-success pull-right">Buscar</button>
+                        </div>
+                        <!-- /.box-footer -->
+                        <input type="hidden" name="curso" value="{curso}" />
+                        <input type="hidden" name="asignatura" value="{asignatura}" />
+                        <input type="hidden" name="grupo" value="{grupo}" />
+                    </form>
+                </div>
+                <!-- /.box -->
+
+            </div>
+            <!--/.col (left) -->
+            <!-- right column -->
+            <div class="col-md-6">
+                <!-- Horizontal Form -->
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Buscar por Matrícula</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form action="/docente/lista_alumnos/{curso}" method="post" class="form-horizontal">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="matricula" class="col-sm-2 control-label">Matrícula</label>
+
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="matricula" id="matricula" placeholder="Matrícula" required >
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+
+                            <button type="submit" name="buscar_m" class="btn btn-success pull-right">Buscar</button>
+                        </div>
+                        <input type="hidden" name="curso" value="{curso}" />
+                        <input type="hidden" name="asignatura" value="{asignatura}" />
+                        <input type="hidden" name="grupo" value="{grupo}" />
+                        <!-- /.box-footer -->
+                    </form>
+                </div>
+                <!-- /.box -->
+
+            </div>
+            <!--/.col (right) -->
+        </div>
+
+
+

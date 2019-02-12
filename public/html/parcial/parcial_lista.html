@@ -1,0 +1,86 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>GESTIÓN DE CALIFICACIONES DEL {parcial} PARCIAL</h1>
+
+    </section>
+
+    <!-- Main content -->
+    <section class="content container-fluid">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Asignatura: {asignatura}</h3>
+                        <div class="box-tools">
+                            <div class="text-danger" style="width: 150px;">
+                                <strong>Ejemplo: 7 &nbsp;o&nbsp; 7.00</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body table-responsive no-padding">
+                        <form method="post" action="/parcial/guardar/">
+                            <table class="table table-hover">
+
+                                <tr>
+                                    <th>No.</th>
+                                    <th>MATRÍCULA</th>
+                                    <th>NOMBRE</th>
+                                    <th>ESTADO</th>
+                                    <th>CALIFICACIÓN</th>
+                                </tr>
+                                <!--ALUMNOS-->
+                                <tr class="{estado}" >                
+                                    <td>{n}</td>
+                                    <td>{matricula}</td>
+                                    <td class="name-left">{nombre}</td>
+                                    <td>{estado}</td>                
+                                    <td>
+                                        {calificacion}
+                                    </td>
+                                </tr>
+                                <!--ALUMNOS-->
+
+                            </table>
+                            <div class="box-footer">
+                                <input type="hidden" name="parcial" value="{parcial}">
+                                <input type="hidden" name="asignatura" value="{asignatura}">
+                                <input type="hidden" name="curso" value="{curso}">
+                                <input type="submit" name="grupo" class="btn btn-success pull-right" value="Guardar"/>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+
+    </section>
+    <!-- /.content -->
+
+</div>
+<!-- /.content-wrapper -->
+<script language="javascript" type="text/javascript">
+
+    //*** Este Codigo permite Validar que sea un campo Numerico
+    function Solo_Numerico(variable) {
+        Numer = parseFloat(variable);
+        if (isNaN(Numer)) {
+            return "";
+        } else if (Numer < 0.0 || Numer > 10) {
+            return "";
+        }
+        return variable;
+    }
+    function validarRango(Control) {
+        Control.value = Solo_Numerico(Control.value);
+        //if(Control.value == "" )
+        //  Control.focus();
+    }
+    //*** Fin del Codigo para Validar que sea un campo Numerico
+
+
+</script>

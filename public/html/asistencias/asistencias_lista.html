@@ -1,0 +1,74 @@
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Gestion de Asistencias de {mes}
+        </h1>
+
+    </section>
+
+    <!-- Main content -->
+    <section class="content container-fluid">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Asignatura: {asignatura}</h3>
+                        <div class="box-tools">
+                            <div class="input-group input-group-sm" style="width: 150px;">
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body table-responsive no-padding">
+
+                        <form action="/asistencias/guardar/{curso}" method="post">
+                            <table class="table table-hover">
+                                <tr>
+                                    <th>No.</th>
+                                    <th>MATRÍCULA</th>
+                                    <th>NOMBRE</th>
+                                    <th>ESTADO</th>
+                                    <!--DIA-->
+                                    <th>{dia}</th>
+                                    <!--DIA-->
+                                    <th> % </th>
+                                </tr>
+                                <!--ALUMNOS-->
+                                <tr class="{estado}" >                
+                                    <td>{n}</td>
+                                    <td>{matricula}</td>
+                                    <td class="name-left">{nombre}</td>
+                                    <td>{estado}</td>
+                                    <!--DIAS-->
+                                    <td>{{dia}}</td>
+                                    <!--DIAS-->
+                                    <td>{porcentaje}</td>
+                                </tr>
+                                <!--ALUMNOS-->
+                            </table>
+
+                                <input type="hidden" name="r" value="asistencias-edit">                
+                                <input type="hidden" name="asignatura" value="{asignatura}">
+                                
+                            <div class="box-footer">
+                                <input type="submit" name="grupo" class="btn btn-success pull-right" value="Guardar"/>
+                            </div>
+                        </form>
+
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+
+
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->

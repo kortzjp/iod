@@ -1,0 +1,102 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            CUADRANTES DE {grupo} de {quincena}
+        </h1>
+
+    </section>
+
+    <!-- Main content -->
+    <section class="content container-fluid">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+
+                    <!-- /.box-header -->
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table table-hover">
+                            <tr>
+                                <th>ASIGNATURA</th>
+                                <th>DOCENTE</th>
+                                <th>NO. ALUMNOS</th>
+                                <th colspan="2"> 1 </th>
+                                <th  colspan="2"> 2 </th>
+                                <th  colspan="2"> 3 </th>
+                                <th  colspan="2"> 4 </th>
+                            </tr>
+                            <!--ASIGNATURAS-->
+                            <tr>                
+                                <td>{asignatura}</td>
+                                <td>{docente}</td>
+                                <td>{alumnos{id}}</td>
+                                <td>{c1v{id}}</td>
+                                <td>{c1p{id}}%</td>
+                                <td>{c2v{id}}</td>
+                                <td>{c2p{id}}%</td>
+                                <td>{c3v{id}}</td>
+                                <td>{c3p{id}}%</td>
+                                <td>{c4v{id}}</td>
+                                <td>{c4p{id}}%</td>
+                            </tr>
+                            <!--ASIGNATURAS-->
+                        </table>
+
+
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+                <br>
+                <div id="grafica_cuadrante_1"></div>
+                <br>
+            </div>
+        </div>
+
+
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+
+
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', {'packages': ['line']});
+            google.charts.setOnLoadCallback(grafica_c1);
+    function grafica_c1() {
+
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Asignaturas');
+    data.addColumn('number', 'SI asiste y SI entrega');
+    data.addColumn('number', 'NO asiste y SI entrega');
+    data.addColumn('number', 'SI asiste y NO entrega');
+    data.addColumn('number', 'NO asiste y NO entrega');
+    data.addRows([
+            // <!--GRAFICA_C1-->
+            ['{asignatura}', {c1p{id}}, {c2p{id}}, {c3p{id}}, {c4p{id}}],
+            // <!--GRAFICA_C1-->
+]);
+
+var options = {
+chart: {
+title: 'GRÁFICA CUADRANTES {grupo}',
+subtitle: '{quincena}'
+},
+legend: { position: 'bottom'},
+width: 1350,
+height: 500,
+colors:['green', 'yellow', 'orange', 'red']
+            
+};
+
+var chart = new google.charts.Line(document.getElementById('grafica_cuadrante_1'));
+chart.draw(data, google.charts.Line.convertOptions(options));
+}
+    
+</script>
+
