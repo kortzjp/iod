@@ -54,6 +54,7 @@ class ParcialModel extends DataBase {
                 . " FROM usuarios a, cursan c "
                 . " WHERE a.id = c.alumno "
                 . " AND c.curso = $curso "
+                . " AND a.activacion = 1"
                 . " ORDER BY c.estado, a.nombre ASC";
 
         $this->get_query();
@@ -71,6 +72,7 @@ class ParcialModel extends DataBase {
                     . " WHERE c.curso = $curso"
                     . " AND c.id = p.id"
                     . " AND c.alumno = a.id"
+                    . " AND a.activacion = 1"
                     . " ORDER BY c.estado, a.nombre";
         } else {
             $this->query = "SELECT a.id, a.usuario as 'matricula', a.nombre, p.primero, p.segundo, p.tercero, c.estado "
@@ -78,6 +80,7 @@ class ParcialModel extends DataBase {
                     . " WHERE c.curso = $curso"
                     . " AND c.id = p.id"
                     . " AND c.alumno = a.id"
+                    . " AND a.activacion = 1"
                     . " ORDER BY c.estado, a.nombre";
         }
 

@@ -8,6 +8,7 @@ require_once 'EvaluacionesModel.php';
 
 require_once './modules/curso/CursoModel.php';
 require_once './modules/alumno/AlumnoModel.php';
+require_once './modules/reportes/ReportesModel.php';
 
 class EvaluacionesController {
 
@@ -84,10 +85,7 @@ class EvaluacionesController {
     }
 
     public function guardar($arg = array()) {
-//        echo "<pre>";
-//        print_r($arg);
-//        print_r($_REQUEST);
-//        echo "</pre>";
+
         $save_evaluaciones = array();
         foreach ($_REQUEST['alumnos'] as $alumno => $value) {
             $datos = explode('_', $alumno);
@@ -164,15 +162,6 @@ class EvaluacionesController {
         }
     }
 
-    public function mostrar($arg = array()) {
-        
-        $grupo = $_POST['grupo'];
-        
-        $reportesModelo = new ReportesModel();
-        $alumnos = $reportesModelo->lista($grupo, $_POST['estado']);
-
-        $calificaciones = new ReportesController();
-        $listacursos = $calificaciones->lista_asignaturas($_POST['grupo'], $_SESSION['cuatrimestre']);
-    }
+    
 
 }

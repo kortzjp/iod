@@ -111,7 +111,7 @@ class TutorView {
         print $footer;
     }
     
-    public function evaluaciones($grupos = array(), $mensaje, $tipo) {
+    public function parciales($grupos = array(), $mensaje, $tipo) {
         $usuario = $_SESSION['usuario'];
         $nombre = $_SESSION['nombre'];
 
@@ -124,7 +124,7 @@ class TutorView {
         $footer = file_get_contents("./public/html/tutor/tutor_footer.html");
 
         $datosContenido = array('mensaje' => $mensaje, 'tipo' => $tipo);
-        $contenido = file_get_contents("./public/html/evaluaciones/evaluaciones.html");
+        $contenido = file_get_contents("./public/html/parcial/parciales.html");
 
         $tmpl = new Template($contenido);
         $contenido = $tmpl->render($datosContenido);

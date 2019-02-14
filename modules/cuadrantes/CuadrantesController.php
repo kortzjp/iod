@@ -74,8 +74,7 @@ class CuadrantesController {
         $datosCuadrante = $this->cuadrantes($auxCursos[$i], $fecha_inicio, $fecha_fin);
         $pagina = $this->vista->datosRengloCurso($pagina, $datosCuadrante);
         
-        }
-        
+        }       
 
         $this->vista->mostrarCuadrantes($pagina);
     }

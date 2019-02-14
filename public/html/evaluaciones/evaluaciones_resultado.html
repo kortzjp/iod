@@ -1,0 +1,44 @@
+<div class="w3-container" id="portfolio">
+    <h2 class="w3-center">ALUMNOS DEL {grupo} {tipo}</h2>
+
+    <div>
+        <table  class="w3-card w3-table-all">
+
+            <tr class="w3-gray">
+                <th>No.</th>
+                <th>MATRÍCULA</th>
+                <th>NOMBRE</th>
+                <th></th>
+                <!--ASIGNATURAS-->
+                <th>{asignatura} <br> {docente}</th>
+                <!--ASIGNATURAS-->
+                <th> REPROBADAS </th>
+            </tr>
+            <!--ALUMNOS-->
+            <tr>                
+                <td>{n}</td>
+                <td>{matricula}</td>
+                <td class="name-left">{nombre}</td>            
+                <td> P1 <br> P2 <br> P3 <br>Prom.<br>FINAL</td>
+                <!--CURSOS_ID-->
+                <td>
+                    <span class="{reprobadaP1{id}}">{primero{id}}</span><br>
+                    <span class="{reprobadaP2{id}}">{segundo{id}}</span><br>
+                    <span class="{reprobadaP3{id}}">{tercero{id}}</span><br>
+                    <span class="{reprobadaP{id}}">{promedio{id}}</span><br>
+                    <span class="{reprobadaP{id}}">{final{id}}</span>
+                </td>
+                <!--CURSOS_ID-->
+                <td>
+                    <span class="{clase1}">{reprobadasP1}</span><br>
+                    <span class="{clase2}">{reprobadasP2}</span><br>
+                    <span class="{clase3}">{reprobadasP3}</span><br>
+                    <span class="{clasep}">{reprobadasp}</span><br>                    
+                    <span class=""><strong>{promedio}</strong></span>
+                </td>
+            </tr>
+            <!--ALUMNOS-->
+        </table>
+    </div>
+</div>
+<br><br><br>

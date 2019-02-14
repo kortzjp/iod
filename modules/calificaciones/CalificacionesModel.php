@@ -35,7 +35,8 @@ class ParcialModel extends DataBase {
         $this->query = ($docente != '') ? "SELECT c.id, a.nombre, c.grupo "
                 . " FROM asignaturas a, cursos c, cuatrimestres cu, cursan cn"
                 . " WHERE a.id = c.asignatura AND c.docente = $docente AND cu.estado=1 "
-                . " AND cu.id=cn.cuatrimestre AND cn.curso= c.id GROUP BY cn.curso ORDER BY c.grupo" : "SELECT c.id, a.nombre, c.estado FROM "
+                . " AND cu.id=cn.cuatrimestre AND cn.curso= c.id GROUP BY cn.curso ORDER BY c.grupo" 
+                : "SELECT c.id, a.nombre, c.estado FROM "
                 . " asignaturas a, cursos c "
                 . " WHERE a.id = c.asignatura ";
 

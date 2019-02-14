@@ -35,7 +35,22 @@
                                 <label for="{grupo}">{grupo}</label>
                                 <!--GRUPOS-->
                             </div>
-                          
+                            
+                            <div class="radio-group">
+                                Tipo:
+                                <input type="radio" id="Normal" name="estado" value="" required />
+                                <label for="Normal">Normal</label>
+                                
+                                <input type="radio" id="Todos" name="estado" value="Todos" required />
+                                <label for="Todos">Todos</label>
+                                
+                                <input type="radio" id="Recurse" name="estado" value="Recurse" required />
+                                <label for="Recurse">Recurse</label>
+                                
+                                <input type="radio" id="Aplazado" name="estado" value="Aplazado" required />
+                                <label for="Aplazado">Aplazado</label>
+                            </div>
+                         
                             <input class="btn btn-primary"
                                    type="submit" name="boton" value="MOSTRAR" />
                         </form>

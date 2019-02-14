@@ -65,7 +65,7 @@ class TutorController {
         $this->vista->cuadrantes($grupos, $lista_quincenas, $carrera, $cuatrimestre[0]['id'], $mensaje, $tipo);
     }
 
-    public function evaluaciones($arg = array()) {
+    public function parciales($arg = array()) {
         HandlerSession()->check_session(USER_TUTOR);
 
         $tutor = $this->modelo->get($_SESSION['id']);
@@ -80,7 +80,7 @@ class TutorController {
         $mensaje = '';
         $tipo = '';
 
-        $this->vista->evaluaciones($grupos, $mensaje, $tipo);
+        $this->vista->parciales($grupos, $mensaje, $tipo);
     }
     
     public function calificaciones($arg = array()) {

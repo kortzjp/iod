@@ -39,19 +39,21 @@ class ReportesModel extends DataBase {
     }
 
     public function lista($grupo, $estado = '') {
-        $this->query = ($estado != 'Todos') ? "SELECT * FROM alumnos "
+        $this->query = ($estado != 'Todos') ? "SELECT id, usuario as 'matricula', nombre FROM usuarios "
                 . " WHERE id IN ("
                 . " SELECT DISTINCT(alumno) "
                 . " FROM cursos c, cursan cn "
                 . " WHERE c.grupo = '$grupo' "
                 . " AND c.id = cn.curso AND cn.estado = '$estado') "
+                . " AND activacion = 1"
                 . " ORDER BY nombre" 
-                : "SELECT * FROM alumnos "
+                : "SELECT id, usuario as 'matricula', nombre FROM usuarios "
                 . " WHERE id IN ("
                 . " SELECT DISTINCT(alumno) "
                 . " FROM cursos c, cursan cn "
                 . " WHERE c.grupo LIKE '$grupo%' "
                 . " AND c.id = cn.curso ) "
+                . " AND activacion = 1"
                 . " ORDER BY nombre";
 
         $this->get_query();
@@ -66,11 +68,11 @@ class ReportesModel extends DataBase {
         return $data;
     }
     
-    public function lista_asignaturas($grupo, $estado){
+    public function lista_asignaturas($grupo, $cuatrimestre){
         $this->query = "SELECT c.id, a.clave, a.nombre as 'asignatura', d.nombre as 'docente', c.grupo "
-                . " FROM cursos c, docentes d, asignaturas a"
+                . " FROM cursos c, usuarios d, asignaturas a"
                 . " WHERE c.grupo LIKE '%$grupo%'"
-                . " AND c.estado = $estado "
+                . " AND c.cuatrimestre = $cuatrimestre "
                 . " AND c.docente = d.id "
                 . " AND c.asignatura = a.id "
                 . " ORDER BY c.id ASC";
