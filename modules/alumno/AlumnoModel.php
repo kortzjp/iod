@@ -31,12 +31,12 @@ class AlumnoModel extends DataBase {
     }
 
     public function edit($datos = array()) {
-
+        
     }
-    
-    public function alumno($matricula){
-         $this->query = "SELECT al.id, al.usuario as 'matricula', al.nombre "
-                 . " FROM usuarios al WHERE al.usuario = '$matricula'";
+
+    public function alumno($matricula) {
+        $this->query = "SELECT al.id, al.usuario as 'matricula', al.nombre "
+                . " FROM usuarios al WHERE al.usuario = '$matricula'";
 
         $this->get_query();
         $num_rows = count($this->rows);
@@ -50,8 +50,26 @@ class AlumnoModel extends DataBase {
         return $data;
     }
     
-     public function asignaturas_alumno($matricula){
-        $this->query = "SELECT c.id, a.clave, a.nombre as 'asignatura', d.nombre as 'docente', c.grupo"
+    public function contestoevaluacion( $matricula ){
+        $this->query = "SELECT 1 FROM respuestas rp "
+                . " WHERE rp.cursan IN ( "
+                . " SELECT cr.id FROM usuarios al, cursan cr, cursos c, usuarios d, asignaturas a "
+                . " WHERE al.usuario = '$matricula' "
+                . " AND cr.alumno = al.id "
+                . " AND c.id = cr.curso "
+                . " AND c.docente = d.id "
+                . " AND c.asignatura = a.id) "
+                . " LIMIT 1";
+
+        $this->get_query();
+        $num_rows = count($this->rows);
+        if( $num_rows > 0 )
+            return true;
+        return false;
+    }
+
+    public function asignaturas_alumno($matricula) {
+        $this->query = "SELECT c.id, a.clave, a.nombre as 'asignatura', d.nombre as 'docente', c.grupo, cr.id as 'cursan'"
                 . " FROM usuarios al, cursan cr, cursos c, usuarios d, asignaturas a"
                 . " WHERE al.usuario = '$matricula'"
                 . " AND cr.alumno = al.id "
@@ -59,6 +77,21 @@ class AlumnoModel extends DataBase {
                 //. " AND c.cuatrimestre = 3 "
                 . " AND c.docente = d.id "
                 . " AND c.asignatura = a.id";
+
+        $this->get_query();
+        $num_rows = count($this->rows);
+
+        $data = array();
+
+        foreach ($this->rows as $key => $value) {
+            array_push($data, $value);
+        }
+
+        return $data;
+    }
+
+    public function getPreguntas() {
+        $this->query = "SELECT * FROM preguntas ORDER BY idDimension";
 
         $this->get_query();
         $num_rows = count($this->rows);
@@ -140,6 +173,16 @@ class AlumnoModel extends DataBase {
         }
 
         return 'creado';
+    }
+
+    public function setRespuestas($data = array()) {
+        foreach ($data as $key => $value) {
+            $$key = $value;
+        }
+
+        $this->query = "INSERT INTO respuestas ( cursan, pregunta, respuesta)"
+                . " VALUES ( $cursan, $pregunta, $respuesta )";
+        $this->set_query();
     }
 
     public function lista($curso) {

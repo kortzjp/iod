@@ -36,7 +36,6 @@ class HandlerSession {
                     $this->destroy_session('error');
                 }
             } else {
-
                 $this->destroy_session('error');
             }
             $stmt->close();
@@ -54,6 +53,8 @@ class HandlerSession {
             header('Location: /tutor/home/');
         else if ($tipo == USER_DOC )
             header('Location: /docente/home/');
+        else if ($tipo == USER_ALUM )
+            header('Location: /alumno/home/');
         else
             header('Location: /usuario/login/');
     }

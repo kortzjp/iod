@@ -37,7 +37,7 @@ class ReportesController {
     }
 
     public function mostrar($argumentos = array()) {
-
+        HandlerSession()->check_session(USER_DOC);
         $grupo = $_POST['grupo'];
 
         $cuatrimestreModelo = new CuatrimestreModel();

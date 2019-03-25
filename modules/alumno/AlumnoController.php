@@ -26,7 +26,55 @@ class AlumnoController {
     }
 
     public function home() {
+        HandlerSession()->check_session(USER_ALUM);
+        $this->vista->home();
+    }
+
+    /**
+     * Evaluación docente, llama a la vista para dar la veinvenida a la evaluación
+     * docente y mostrar las asignaturas y el nombre del docente que la imparte. 
+     * @param type $arg
+     */
+    public function evaluacion($arg = array()) {
+        HandlerSession()->check_session(USER_ALUM);
+        $matricula = $_SESSION['usuario'];
+        // si ya contesto la evaluacion docente
         
+        if ($this->modelo->contestoevaluacion($matricula)) {
+            $mensaje = "Gracias por contestar la evaluación.";
+            $this->vista->evaluacion($mensaje);
+        } else {
+            $cursos = $this->modelo->asignaturas_alumno($matricula);
+            $this->vista->evaluacion("", $cursos);
+        }
+    }
+
+    public function comenzarevaluacion($arg = array()) {
+        HandlerSession()->check_session(USER_ALUM);
+        $matricula = $_SESSION['usuario'];
+
+        $this->modelo = new AlumnoModel();
+        $cursos = $this->modelo->asignaturas_alumno($matricula);
+
+        $this->modelo = new AlumnoModel();
+        $preguntas = $this->modelo->getPreguntas();
+
+        $this->vista->comenzarevaluacion($cursos, $preguntas);
+    }
+
+    public function guardarevaluacion($arg = array()) {
+        $data = array();
+        foreach ($_POST['respuestas'] as $cursoPregunta => $valor) {
+            $datos = explode("_", $cursoPregunta);
+            $data["cursan"] = $datos[0];
+            $data["pregunta"] = $datos[1];
+            $data["respuesta"] = $valor;
+            //echo $data["cursan"] . " " . $data["pregunta"] . " " . $data["respuesta"]. "<br>";
+            $this->modelo = new AlumnoModel();
+           $this->modelo->setRespuestas($data);
+        }
+        
+        header("location: /alumno/evaluacion");
     }
 
     public function reporte($arg = array()) {
@@ -35,16 +83,15 @@ class AlumnoController {
             $matricula = recoge('matricula');
             $alumnoModelo = new AlumnoModel();
             $alumno = $alumnoModelo->alumno($matricula);
-            
+
             $alumnoModelo = new AlumnoModel();
             $asignaturas = $alumnoModelo->asignaturas_alumno($matricula);
-            
-            
-        echo '<pre>';
-        print_r($alumno);
-        print_r($asignaturas);
-        echo '</pre>';
-            
+
+
+            echo '<pre>';
+            print_r($alumno);
+            print_r($asignaturas);
+            echo '</pre>';
         } else {
             header('Location: /tutor/home');
         }

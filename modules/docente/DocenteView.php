@@ -21,6 +21,30 @@ class DocenteView {
         print $footer;
     }
 
+    public function resultados( $datosDimensiones, $promedio, $color, $mensaje, $tipo ) {
+        $usuario = $_SESSION['usuario'];
+        $nombre = $_SESSION['nombre'];
+
+        $header = file_get_contents("./public/html/docente/docente_header.html");
+        $datosHeader = array('usuario' => $usuario, 'nombre' => $nombre);
+
+        $tmpl = new Template($header);
+        $header = $tmpl->render($datosHeader);
+
+        $footer = file_get_contents("./public/html/docente/docente_footer.html");
+        $contenido = file_get_contents("./public/html/docente/docente_resultados.html");
+        
+        $tmpl = new Template($contenido);
+        $contenido = $tmpl->render_regex($datosDimensiones, "LISTA_DIMENSIONES");
+        
+        $datosContenido = array('color' => $color, 'promedio' => $promedio, "mensaje" => $mensaje, "tipo" => $tipo);
+        $tmpl = new Template($contenido);
+        $contenido = $tmpl->render($datosContenido);
+        
+        print $header;
+        print $contenido;
+        print $footer;
+    }
     public function alumnos($cursos = array(), $mensaje, $tipo) {
         $usuario = $_SESSION['usuario'];
         $nombre = $_SESSION['nombre'];

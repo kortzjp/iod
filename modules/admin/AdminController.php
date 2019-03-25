@@ -20,7 +20,7 @@ class AdminController {
 
     public function home() {
         //echo "Home del administrador";
-        HandlerSession()->check_session(4);
+        HandlerSession()->check_session(USER_ADMIN);
         $usuario = $_SESSION['usuario'];
         $nombre = $_SESSION['nombre'];
         $this->vista->home($usuario, $nombre);
