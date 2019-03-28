@@ -14,12 +14,12 @@
 
         <div class="row">
             <div class="col-xs-12">
-            <div class="callout {tipo}">                
-                <p>{mensaje}</p>
-              </div>
+                <div class="callout {tipo}">                
+                    <p>{mensaje}</p>
+                </div>
             </div>
-         </div>
-        
+        </div>
+
         <div class="row">
             <div class="col-xs-12">
                 <div class="box">
@@ -55,11 +55,17 @@
                                 <td>{correo}</td>
                                 <td>{activacion}</td>
                                 <td>
-                                    <div class="input-group-btn">
-                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-info{id}">
-                                        <i class="fa fa-fw fa-pencil"></i>
-                                    </button>
-                                </div>
+                                    <div class="input-group-btn" data-toggle="tooltip" data-placement="left" title="Resultados de Evaluación">
+                                        <a href="/tutor/resultados/{id}" class="btn btn-success" >
+                                            <i class="fa fa-fw fa-bar-chart-o"></i>
+                                        </a>
+                                    </div>
+
+                                    <div class="input-group-btn" data-toggle="tooltip" data-placement="left" title="Editar">
+                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-info{id}">
+                                            <i class="fa fa-fw fa-pencil"></i>
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                             <!--LISTA_DOCENTES-->
@@ -106,7 +112,7 @@
                                     <input type="email" name="correo" class="form-control" id="correo" placeholder="docente@correo.com" required />
                                 </div>
                             </div>
-                            
+
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Estado</label>
                                 <div class="radio">
@@ -114,14 +120,14 @@
                                         <input type="radio" name="estado" value="1" checked required />
                                         Activo
                                     </label>
-                                
+
                                     <label>
                                         <input type="radio" name="estado" value="0" required />
                                         Inactivo
                                     </label>
                                 </div>
                             </div>
-                            
+
                         </div>
                     </div>
 
@@ -135,7 +141,7 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-    
+
     <!--DOCENTES_EDITAR-->
     <div class="modal in" id="modal-info{id}">
         <div class="modal-dialog">
@@ -169,7 +175,7 @@
                                     <input type="email" name="correo" value="{correo}" class="form-control" id="correo" required />
                                 </div>
                             </div>
-           
+
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Estado</label>
                                 <div class="radio">
@@ -177,7 +183,7 @@
                                         <input type="radio" name="estado" value="1" checked required />
                                         Activo
                                     </label>
-                                
+
                                     <label>
                                         <input type="radio" name="estado" value="0" required />
                                         Inactivo
@@ -187,9 +193,9 @@
 
                         </div>
                     </div>
- 
+
                     <input type="hidden" name="id" value="{id}" />
-                    
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-success">Guardar</button>

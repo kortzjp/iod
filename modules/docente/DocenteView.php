@@ -45,6 +45,7 @@ class DocenteView {
         print $contenido;
         print $footer;
     }
+   
     public function alumnos($cursos = array(), $mensaje, $tipo) {
         $usuario = $_SESSION['usuario'];
         $nombre = $_SESSION['nombre'];

@@ -195,6 +195,33 @@ class TutorView {
         print $footer;
     }
 
+    public function resultados( $datosDimensiones, $promedio, $color, $mensaje, $tipo, $docente ) {
+        $usuario = $_SESSION['usuario'];
+        $nombre = $_SESSION['nombre'];
+
+        $header = file_get_contents("./public/html/tutor/tutor_header.html");
+        $datosHeader = array('usuario' => $usuario, 'nombre' => $nombre);
+
+        $tmpl = new Template($header);
+        $header = $tmpl->render($datosHeader);
+
+        $footer = file_get_contents("./public/html/tutor/tutor_footer.html");
+        $contenido = file_get_contents("./public/html/docente/docente_resultados.html");
+        
+        $tmpl = new Template($contenido);
+        $contenido = $tmpl->render_regex($datosDimensiones, "LISTA_DIMENSIONES");
+        
+        $datosContenido = array('color' => $color, 'promedio' => $promedio,
+            "mensaje" => $mensaje, "tipo" => $tipo, "docente" => $docente);
+        $tmpl = new Template($contenido);
+        $contenido = $tmpl->render($datosContenido);
+        
+        print $header;
+        print $contenido;
+        print $footer;
+    }
+   
+    
     public function crear($carreras, $usuario, $nombre) {
         $header = file_get_contents("./public/html/admin/admin_header.html");
         $datosHeader = array('usuario' => $usuario, 'nombre' => $nombre);

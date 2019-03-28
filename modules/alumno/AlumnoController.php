@@ -7,6 +7,7 @@ require_once 'AlumnoModel.php';
 require_once 'AlumnoView.php';
 
 require_once './modules/cuatrimestre/CuatrimestreModel.php';
+require_once './modules/parcial/ParcialModel.php';
 
 class AlumnoController {
 
@@ -39,7 +40,7 @@ class AlumnoController {
         HandlerSession()->check_session(USER_ALUM);
         $matricula = $_SESSION['usuario'];
         // si ya contesto la evaluacion docente
-        
+
         if ($this->modelo->contestoevaluacion($matricula)) {
             $mensaje = "Gracias por contestar la evaluación.";
             $this->vista->evaluacion($mensaje);
@@ -71,9 +72,9 @@ class AlumnoController {
             $data["respuesta"] = $valor;
             //echo $data["cursan"] . " " . $data["pregunta"] . " " . $data["respuesta"]. "<br>";
             $this->modelo = new AlumnoModel();
-           $this->modelo->setRespuestas($data);
+            $this->modelo->setRespuestas($data);
         }
-        
+
         header("location: /alumno/evaluacion");
     }
 
@@ -82,16 +83,129 @@ class AlumnoController {
         if (isset($_POST['matricula']) && !empty($_POST['matricula'])) {
             $matricula = recoge('matricula');
             $alumnoModelo = new AlumnoModel();
-            $alumno = $alumnoModelo->alumno($matricula);
+            $alumnos = $alumnoModelo->alumno($matricula);
 
             $alumnoModelo = new AlumnoModel();
             $asignaturas = $alumnoModelo->asignaturas_alumno($matricula);
 
+            $cursos = array();
+            $auxAlumno = array();
+            $n = 0;
+            foreach ($alumnos as $row => $alumno) {
+                // para cambiar de nombre en la lista
+                $auxAlumno[$n]['n'] = ($n + 1);
+                $auxAlumno[$n]['id'] = $alumno['id'];
+                $auxAlumno[$n]['matricula'] = $alumno['matricula'];
+                $auxAlumno[$n]['nombre'] = $alumno['nombre'];
+                // contador de materias reprobadas por paricial
+                $reprobadasP1 = 0;
+                $reprobadasP2 = 0;
+                $reprobadasP3 = 0;
+                $reprobadasp = 0;
+                $promedio = 0;
+                $promedioG = 0;
+                $materias = 0;
 
-            echo '<pre>';
-            print_r($alumno);
-            print_r($asignaturas);
-            echo '</pre>';
+                foreach ($asignaturas as $key => $curso) {
+
+                    $parciales = new ParcialModel();
+                    $listaparciales = $parciales->lista_calificaciones($curso['id'], 'final');
+
+//                    $asistencias = new AsistenciasController();
+//                    $totalAsistencias = $asistencias->asistencias($curso['id'], $alumno['id'], '2018/09/03', '2018/12/07');
+//                    $faltas = new AsistenciasController();
+//                    $totalFaltas = $faltas->faltas($curso['id'], $alumno['id'], '2018/09/03', '2018/12/07');
+
+                    $auxAlumno[$n]['primero' . $curso['id']] = 'NC';
+                    $auxAlumno[$n]['segundo' . $curso['id']] = 'NC';
+                    $auxAlumno[$n]['tercero' . $curso['id']] = 'NC';
+                    $auxAlumno[$n]['promedio' . $curso['id']] = 'NC';
+                    $auxAlumno[$n]['reprobada1' . $curso['id']] = '';
+                    $auxAlumno[$n]['reprobada2' . $curso['id']] = '';
+                    $auxAlumno[$n]['reprobada3' . $curso['id']] = '';
+                    $auxAlumno[$n]['reprobadap' . $curso['id']] = '';
+                    $auxAlumno[$n]['asistencia' . $curso['id']] = '';
+//                    if ($totalAsistencias != 0 || $totalFaltas != 0) {
+//                        $porcentaje = (100 * $totalAsistencias ) / ($totalAsistencias + $totalFaltas);
+//                        $porcentaje = number_format($porcentaje, 0, '.', '');
+//                        $auxAlumno[$n]['asistencia' . $curso['id']] = $porcentaje . ' %';
+//                    }
+
+                    foreach ($listaparciales as $key => $rowCalif) {
+                        if ($rowCalif['matricula'] == $alumno['matricula']) {
+
+                            $auxAlumno[$n]['primero' . $curso['id']] = $rowCalif['primero'];
+                            $auxAlumno[$n]['segundo' . $curso['id']] = $rowCalif['segundo'];
+                            $auxAlumno[$n]['tercero' . $curso['id']] = $rowCalif['tercero'];
+
+                            $promedio = ($rowCalif['primero'] + $rowCalif['segundo'] + $rowCalif['tercero']) / 3;
+                            $auxAlumno[$n]['promedio' . $curso['id']] = number_format($promedio, 2, '.', '');
+
+
+                            if ($rowCalif['primero'] < 7) {
+                                $reprobadasP1++;
+                                $auxAlumno[$n]['reprobadaP1' . $curso['id']] = 'reprobado';
+                            }
+                            if ($rowCalif['segundo'] < 7) {
+                                $reprobadasP2++;
+                                $auxAlumno[$n]['reprobadaP2' . $curso['id']] = 'reprobado';
+                            }
+                            if ($rowCalif['tercero'] < 7) {
+                                $reprobadasP3++;
+                                $auxAlumno[$n]['reprobadaP3' . $curso['id']] = 'reprobado';
+                            }
+
+                            if ($promedio < 7.0) {
+                                $auxAlumno[$n]['final' . $curso['id']] = 6;
+                                $reprobadasp++;
+                                $promedioG += 6;
+                                $materias++;
+                                $auxAlumno[$n]['reprobadaP' . $curso['id']] = 'reprobado';
+                            } else {
+                                $final = round($promedio, 0);
+                                $promedioG += $final;
+                                $materias++;
+                                $auxAlumno[$n]['final' . $curso['id']] = $final;
+                            }
+
+                            break;
+                        }
+                    }
+                }
+                $promedioG = $promedioG / $materias;
+                $auxAlumno[$n]['promedio'] = number_format($promedioG, 2, '.', '');
+
+                $clase1 = '';
+                $clase2 = '';
+                $clase3 = '';
+                $clasep = '';
+                if ($reprobadasP1 > 2) {
+                    $clase1 = 'reprobado';
+                }
+                if ($reprobadasP2 > 2) {
+                    $clase2 = 'reprobado';
+                }
+                if ($reprobadasP3 > 2) {
+                    $clase3 = 'reprobado';
+                }
+                if ($reprobadasp > 2) {
+                    $clasep = 'reprobado';
+                }
+                $auxAlumno[$n]['reprobadasP1'] = $reprobadasP1;
+                $auxAlumno[$n]['reprobadasP2'] = $reprobadasP2;
+                $auxAlumno[$n]['reprobadasP3'] = $reprobadasP3;
+                $auxAlumno[$n]['reprobadasp'] = $reprobadasp;
+                $auxAlumno[$n]['clase1'] = $clase1;
+                $auxAlumno[$n]['clase2'] = $clase2;
+                $auxAlumno[$n]['clase3'] = $clase3;
+                $auxAlumno[$n]['clasep'] = $clasep;
+                $n++;
+            }
+
+            $this->vista->parcialesAlumnos($auxAlumno, $asignaturas);
+//            echo '<pre>';
+//            print_r($_REQUEST);
+//            echo '</pre>';
         } else {
             header('Location: /tutor/home');
         }

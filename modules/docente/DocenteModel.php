@@ -114,6 +114,22 @@ class DocenteModel extends DataBase {
 
         return $data;
     }
+    
+    public function getDocente( $id = 0 ) {
+        
+            $this->query = "SELECT * FROM usuarios "
+                . " WHERE id = $id LIMIT 1";
+
+        $this->get_query();
+        $num_rows = count($this->rows);
+        $data = array();
+
+        foreach ($this->rows as $key => $value) {
+            array_push($data, $value);
+        }
+
+        return $data;
+    }
 
     public function set ($datos = array()) {
         foreach ($datos as $key => $value) {
