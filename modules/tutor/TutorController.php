@@ -240,9 +240,9 @@ class TutorController {
                     $color = "danger";
                     if ($porcentaje >= 90)
                         $color = "success";
-                    else if ($porcentaje >= 70)
+                    else if ($porcentaje >= 80)
                         $color = "info";
-                    else if ($porcentaje >= 50)
+                    else if ($porcentaje >= 70)
                         $color = "warning";
                     $datos[] = array("id" => $dimension["idDimension"], "dimension" => $dimension["dimension"], "color" => $color, "porcentaje" => round($porcentaje));
                 }
@@ -252,9 +252,9 @@ class TutorController {
             $color = "danger";
             if ($promedio >= 90)
                 $color = "success";
-            else if ($promedio >= 70)
+            else if ($promedio >= 80)
                 $color = "info";
-            else if ($promedio >= 50)
+            else if ($promedio >= 70)
                 $color = "warning";
 
             $this->vista->resultados($datos, $promedio, $color, $mensaje, $tipo, $nombre);
