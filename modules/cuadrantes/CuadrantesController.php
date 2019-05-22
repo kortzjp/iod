@@ -48,7 +48,7 @@ class CuadrantesController {
 //        echo "<pre>";
 //            print_r($totalAlumnos);
 //            echo "<pre>";
-
+//exit ;
         foreach ($totalAlumnos as $row => $curso) {
             // para cambiar de nombre en la lista
             $auxAlumnos['alumnos' . $curso['curso']] = $curso['alumnos'];
@@ -70,11 +70,11 @@ class CuadrantesController {
         $pagina = $this->vista->cuadrantes($asignaturas, $listaCursos, $objGrupo);
 
         for ($i = 0; $i < count($auxCursos); $i++) {
-        
-        $datosCuadrante = $this->cuadrantes($auxCursos[$i], $fecha_inicio, $fecha_fin);
-        $pagina = $this->vista->datosRengloCurso($pagina, $datosCuadrante);
-        
-        }       
+
+            $datosCuadrante = $this->cuadrantes($auxCursos[$i], $fecha_inicio, $fecha_fin);
+            $pagina = $this->vista->datosRengloCurso($pagina, $datosCuadrante);
+            
+        }
 
         $this->vista->mostrarCuadrantes($pagina);
     }
@@ -197,7 +197,7 @@ class CuadrantesController {
         $diaFinal = count($diasDeClase) - 1;
         $asistenciasModelo = new AsistenciasModel();
         $asistencias = $asistenciasModelo->lista_asistencias($curso, $diasDeClase[0], $fecha_fin);
-
+        
         if (empty($asistencias)) {
             $cuadrantes = array();
             $cuadrantes['c1v' . $curso] = 0;
@@ -219,7 +219,7 @@ class CuadrantesController {
             $cuadrante3 = 0;
             $cuadrante4 = 0;
             $total = count($pAsistencias);
-
+          
             for ($a = 0; $a < $total; $a++) {
                 if ($pAsistencias[$a]['asistencia'] >= 70 && $evaluaciones[$a]['evaluacion'] >= 70) {
                     $cuadrante1++;

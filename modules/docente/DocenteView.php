@@ -172,12 +172,15 @@ class DocenteView {
         $header = $tmpl->render($datosHeader);
 
         $footer = file_get_contents("./public/html/docente/docente_footer.html");
-        $contenido = file_get_contents("./public/html/docente/docente_evaluaciones.html");
+        $contenido = file_get_contents("./public/html/docente/docente_evaluaciones_1.html");
 
         $datosContenido = array('mensaje' => $mensaje, 'tipo' => $tipo);
 
         $tmpl = new Template($contenido);
         $contenido = $tmpl->render($datosContenido);
+
+        $tmpl = new Template($contenido);
+        $contenido = $tmpl->render($datosMes);
 
         $tmpl = new Template($contenido);
         $contenido = $tmpl->render_regex($cursos, "LISTA_CURSOS");
@@ -187,6 +190,32 @@ class DocenteView {
         print $contenido;
         print $footer;
     }
+//    public function evaluaciones($cursos = array(), $mensaje, $tipo) {
+//        $usuario = $_SESSION['usuario'];
+//        $nombre = $_SESSION['nombre'];
+//
+//        $header = file_get_contents("./public/html/docente/docente_header.html");
+//        $datosHeader = array('usuario' => $usuario, 'nombre' => $nombre);
+//
+//        $tmpl = new Template($header);
+//        $header = $tmpl->render($datosHeader);
+//
+//        $footer = file_get_contents("./public/html/docente/docente_footer.html");
+//        $contenido = file_get_contents("./public/html/docente/docente_evaluaciones.html");
+//
+//        $datosContenido = array('mensaje' => $mensaje, 'tipo' => $tipo);
+//
+//        $tmpl = new Template($contenido);
+//        $contenido = $tmpl->render($datosContenido);
+//
+//        $tmpl = new Template($contenido);
+//        $contenido = $tmpl->render_regex($cursos, "LISTA_CURSOS");
+//
+//
+//        print $header;
+//        print $contenido;
+//        print $footer;
+//    }
     
     public function parciales($cursos = array(), $mensaje, $tipo) {
         $usuario = $_SESSION['usuario'];

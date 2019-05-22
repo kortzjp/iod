@@ -90,6 +90,27 @@ class EvaluacionesModel extends DataBase {
 
         return $data;
     }
+    
+    public function lista_asistencias($curso, $inicio, $fin) {
+        
+            $this->query = "SELECT aa.dia FROM asistencias aa "
+                . " WHERE aa.id IN "
+                ." (SELECT cr.id FROM cursan cr WHERE cr.curso = 33)"
+                ." AND aa.dia BETWEEN '2019-01-03' AND '2019-01-15'" 
+                ." GROUP BY aa.dia";
+
+        $this->get_query();
+
+        $num_rows = count($this->rows);
+
+        $data = array();
+
+        foreach ($this->rows as $key => $value) {
+            array_push($data, $value);
+        }
+
+        return $data;
+    }
 
     public function del($status_id = '') {
         $this->query = "DELETE FROM status WHERE status_id = $status_id";

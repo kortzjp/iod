@@ -22,7 +22,8 @@ class AsistenciasModel extends DataBase {
         $this->query = ($docente != '') ? "SELECT c.id, a.nombre, c.grupo "
                 . " FROM asignaturas a, cursos c, cuatrimestres cu, cursan cn"
                 . " WHERE a.id = c.asignatura AND c.docente = $docente AND cu.estado = 1 "
-                . " AND cu.id=cn.cuatrimestre AND cn.curso= c.id GROUP BY cn.curso ORDER BY c.grupo" : "SELECT c.id, a.nombre, c.estado FROM "
+                . " AND cu.id=cn.cuatrimestre AND cn.curso= c.id GROUP BY cn.curso ORDER BY c.grupo" 
+                : "SELECT c.id, a.nombre, c.estado FROM "
                 . " asignaturas a, cursos c "
                 . " WHERE a.id = c.asignatura ";
 
@@ -132,7 +133,7 @@ class AsistenciasModel extends DataBase {
     }
 
     public function horario($curso, $mes) {
-        // consuta para saber cuantos dias hay entre las fechas de inico de semestre y fin de semestre
+        // consulta para saber cuantos dias hay entre las fechas de inico de semestre y fin de semestre
         $this->query = "SELECT h.id, h.lunes, h.martes, h.miercoles, h.jueves, h.viernes, h.sabado,"
                 . " c.nombre, c.inicio, c.fin "
                 . " FROM horarios h, cuatrimestres c "
@@ -261,6 +262,70 @@ class AsistenciasModel extends DataBase {
         return $fechas;
     }
 
+    public function asistenciasRegistradas($curso, $mes) {
+        // consulta para saber cuantos dias hay entre las fechas de inico de semestre y fin de semestre
+        $this->query = "SELECT h.id, h.lunes, h.martes, h.miercoles, h.jueves, h.viernes, h.sabado,"
+                . " c.nombre, c.inicio, c.fin "
+                . " FROM horarios h, cuatrimestres c "
+                . " WHERE h.id = $curso "
+                . " AND c.estado = 1 LIMIT 1";
+
+        $this->get_query();
+        $num_rows = count($this->rows);
+
+        $data = array();
+
+        foreach ($this->rows as $key => $value) {
+            array_push($data, $value);
+        }
+
+        foreach ($data[0] as $key => $value) {
+            $$key = $value;
+        }
+
+        $inicioMes = new DateTime($inicio);
+        $finMes = new DateTime($fin);
+
+        $auxMes = new DateTime($inicio);
+        $finMes = $auxMes->modify('last day of this month');
+
+        if ($mes == 'SEGUNDO') {
+            $inicioMes = $auxMes->add(new DateInterval('P1D'));
+            $finMes = new DateTime($inicioMes->format('Y-m-d'));
+            $finMes->modify('last day of this month');
+        } else if ($mes == 'TERCERO') {
+            $inicioMes = $auxMes->add(new DateInterval('P2M'));
+            $finMes = new DateTime($inicioMes->format('Y-m-d'));
+            $inicioMes->modify('first day of this month');
+            $finMes->modify('last day of this month');
+        } else if ($mes == 'CUARTO') {
+            $finMes = new DateTime($fin);
+            $inicioMes = $finMes->modify('first day of this month');
+            $finMes = new DateTime($fin);
+        }
+
+        $interval = $inicioMes->diff($finMes);
+        $diasTotal = $interval->format('%a');
+        
+        $fechaInicio = $inicioMes->format('Y-m-d');
+        $fechaFin = $finMes->format('Y-m-d');
+        $this->query = "SELECT DISTINCT(aa.dia) FROM cursan c, asistencias aa"
+                . " WHERE c.curso =  $curso "
+                . " AND c.id = aa.id "
+                . " AND aa.dia BETWEEN '$fechaInicio' AND '$fechaFin'";
+
+        $this->get_query();
+        $num_rows = count($this->rows);
+
+        $fechas = array();
+
+        foreach ($this->rows as $key => $value) {
+            array_push($fechas, $value);
+        }
+        
+        return $fechas;
+    }
+    
     public function delete() {
         
     }

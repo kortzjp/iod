@@ -9,6 +9,8 @@ require_once 'EvaluacionesModel.php';
 require_once './modules/curso/CursoModel.php';
 require_once './modules/alumno/AlumnoModel.php';
 require_once './modules/reportes/ReportesModel.php';
+require_once './modules/horario/HorarioModel.php';
+require_once './modules/asistencias/AsistenciasModel.php';
 
 class EvaluacionesController {
 
@@ -51,34 +53,43 @@ class EvaluacionesController {
                 header('Location: /docente/evaluaciones');
             } else {
                 // echo "lista de evaluaciones";
-                $dia = $this->modelo->dia($idCurso, $_POST['dia']);
 
-                if (!empty($dia)) {
-                    header("Location: /docente/evaluaciones/error_dia");
+                $alumnoModelo = new AlumnoModel();
+                $alumnos = $alumnoModelo->lista($idCurso);
+                               
+                echo '<pre>';
+                print_r($alumnos);
+                echo '</pre>';
+//                $inicio = '2019/01/03';
+//                $fin = '2019/01/15';
+//                
+//                $evaluacionModelo = new EvaluacionesModel();
+//                $asistencias = $evaluacionModelo->lista_asistencias($idCurso, $inicio, $fin);
+//                var_dump($asistencias);
+
+                if (empty($asistencias)) {
+                    //header("Location: /docente/evaluaciones/error_dia");
                 } else {
-                    $alumnoModelo = new AlumnoModel();
-                    $alumnos = $alumnoModelo->lista($idCurso);
-
-                    if (empty($alumnos)) {
-                        header("location: /docente/evaluaciones/error_lista");
-                    } else {
-                        // obtener la lista de alumnos
-
-                        $auxAlumno = array();
-                        $n = 0;
-
-                        foreach ($alumnos as $row => $alumno) {
-                            // para cambiar de nombre en la lista
-                            $auxAlumno[$n]['n'] = ($n + 1);
-                            $auxAlumno[$n]['id'] = $alumno['id'];
-                            $auxAlumno[$n]['matricula'] = $alumno['matricula'];
-                            $auxAlumno[$n]['nombre'] = $alumno['nombre'];
-                            $auxAlumno[$n]['estado'] = $alumno['estado'];
-                            $n++;
-                        }
-
-                        $this->vista->mostrar_lista($auxAlumno);
-                    }
+//                    if (empty($alumnos)) {
+//                        header("location: /docente/evaluaciones/error_lista");
+//                    } else {
+//                        // obtener la lista de alumnos
+//
+//                        $auxAlumno = array();
+//                        $n = 0;
+//
+//                        foreach ($alumnos as $row => $alumno) {
+//                            // para cambiar de nombre en la lista
+//                            $auxAlumno[$n]['n'] = ($n + 1);
+//                            $auxAlumno[$n]['id'] = $alumno['id'];
+//                            $auxAlumno[$n]['matricula'] = $alumno['matricula'];
+//                            $auxAlumno[$n]['nombre'] = $alumno['nombre'];
+//                            $auxAlumno[$n]['estado'] = $alumno['estado'];
+//                            $n++;
+//                        }
+//
+//                        $this->vista->mostrar_lista($auxAlumno);
+//                    }
                 }
             }
         }
@@ -161,5 +172,5 @@ class EvaluacionesController {
             }
         }
     }
-}
 
+}

@@ -194,8 +194,20 @@ class DocenteController {
                     . ' para verificar esto.';
             $this->vista->mensaje($tipo, $titulo, $mensaje);
         } else {
+            $cuatrimestreModelo = new CuatrimestreModel();
+            $cuatrimestre = $cuatrimestreModelo->get(1);
 
-
+//            $mes = new DateTime($cuatrimestre[0]['inicio']);
+//            $meses = array("ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO",
+//                "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE");
+//            $m = date("n", strtotime($mes->format('Y-m-d')));
+//
+//            $datosMes = array(
+//                'primero' => $meses[$m - 1],
+//                'segundo' => $meses[$m],
+//                'tercero' => $meses[$m + 1],
+//                'cuarto' => $meses[$m + 2]);
+//
             $mensaje = '';
             $tipo = '';
             $this->vista->evaluaciones($cursos, $mensaje, $tipo);

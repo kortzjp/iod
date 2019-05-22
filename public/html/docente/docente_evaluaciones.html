@@ -38,36 +38,52 @@
                             <tr>
                                 <th>Asignatura</th>
                                 <th>Grupo</th> 
-                                <th>Día</th>
-                                <th>Lista</th>
+                                <th colspan="4">Meses</th>
+                                
                             </tr>
                             <!--LISTA_CURSOS-->
-
+                            
                             <tr>
                                 <td>{nombre}</td>
                                 <td>{grupo}</td>
                                 <td>
-
-                                    <form class="form-horizontal" action="/evaluaciones/registrar/{id}" method="post" >
-                                        <input type="hidden" name="asignatura" value="{nombre}" />
-                                        <!--<div class="box-footer">-->
-                                            <input type="date" class="btn btn-default" name="dia" required>
-                                            <button type="submit" class="btn btn-success pull-right">Registrar</button>
-                                        <!--</div>-->
+                                    <form action="/evaluaciones/registrar/{id}" method="post">
+                                        <div class="input-group-btn">
+                                            <input type="hidden" name="asignatura" value="{nombre}" />
+                                            <input type="hidden" name="mes" value="PRIMERO" />
+                                            <input type="submit" name="grupo" class="btn btn-success pull-right" value="{primero}"/>                                    
+                                        </div>
                                     </form>
-
                                 </td>
                                 <td>
-                                    <form class="form-horizontal" action="/evaluaciones/resultados/{id}" method="post">
-                                        <!--<div class="input-group-btn">-->
-                                            <input type="hidden" name="asignatura" value="{nombre}" />                                            
-                                            <input type="submit" name="resultados" class="btn btn-success pull-right" value="Lista"/>
-                                        <!--</div>-->
+                                    <form action="/evaluaciones/registrar/{id}" method="post">
+                                        <div class="input-group-btn">
+                                            <input type="hidden" name="asignatura" value="{nombre}" />
+                                            <input type="hidden" name="mes" value="SEGUNDO" />
+                                            <input type="submit" name="grupo" class="btn btn-success pull-right" value="{segundo}"/>                                    
+                                        </div>
                                     </form>
                                 </td>
-
+                                <td>
+                                    <form action="/evaluaciones/registrar/{id}" method="post">
+                                        <div class="input-group-btn">
+                                            <input type="hidden" name="asignatura" value="{nombre}" />
+                                            <input type="hidden" name="mes" value="TERCERO" />
+                                            <input type="submit" name="grupo" class="btn btn-success pull-right" value="{tercero}"/>                                    
+                                        </div>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form action="/evaluaciones/registrar/{id}" method="post">
+                                        <div class="input-group-btn">
+                                            <input type="hidden" name="asignatura" value="{nombre}" />
+                                            <input type="hidden" name="mes" value="CUARTO" />
+                                            <input type="submit" name="grupo" class="btn btn-success pull-right" value="{cuarto}"/>                                    
+                                        </div>
+                                    </form>
+                                </td>
                             </tr>
-
+                   
                             <!--LISTA_CURSOS-->
                         </table>
                     </div>

@@ -1,0 +1,85 @@
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Gestión de Evaluación Continua
+            <small>Cursos</small>
+        </h1>
+
+    </section>
+
+    <!-- Main content -->
+    <section class="content container-fluid">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="callout {tipo}">                
+                    <p>{mensaje}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Lista de Cursos</h3>
+                        <div class="box-tools">
+                            <div class="input-group input-group-sm" style="width: 150px;">
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table table-hover">
+                            <tr>
+                                <th>Asignatura</th>
+                                <th>Grupo</th> 
+                                <th>Día</th>
+                                <th>Lista</th>
+                            </tr>
+                            <!--LISTA_CURSOS-->
+
+                            <tr>
+                                <td>{nombre}</td>
+                                <td>{grupo}</td>
+                                <td>
+
+                                    <form class="form-horizontal" action="/evaluaciones/registrar/{id}" method="post" >
+                                        <input type="hidden" name="asignatura" value="{nombre}" />
+                                        <!--<div class="box-footer">-->
+                                            <input type="date" class="btn btn-default" name="dia" required>
+                                            <button type="submit" class="btn btn-success pull-right">Registrar</button>
+                                        <!--</div>-->
+                                    </form>
+
+                                </td>
+                                <td>
+                                    <form class="form-horizontal" action="/evaluaciones/resultados/{id}" method="post">
+                                        <!--<div class="input-group-btn">-->
+                                            <input type="hidden" name="asignatura" value="{nombre}" />                                            
+                                            <input type="submit" name="resultados" class="btn btn-success pull-right" value="Lista"/>
+                                        <!--</div>-->
+                                    </form>
+                                </td>
+
+                            </tr>
+
+                            <!--LISTA_CURSOS-->
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+
+    </section>
+    <!-- /.content -->
+
+</div>
+<!-- /.content-wrapper -->
+

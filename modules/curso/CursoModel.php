@@ -98,8 +98,8 @@ class CursoModel extends DataBase {
             $$key = $value;
         }
 
-        //$conexion = new mysqli("107.180.58.66", "academia", "iseAcademia?18", "sistemastutorias");
-        $conexion = new mysqli("localhost", "root", "", "sistemastutorias");
+        $conexion = new mysqli("107.180.58.66", "academia", "iseAcademia?18", "sistemastutorias");
+        //$conexion = new mysqli("localhost", "root", "", "sistemastutorias");
         if ($conexion->connect_errno) {
             die('Error en la conexion: ' . $conexion->connect_errno);
         }
