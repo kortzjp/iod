@@ -179,8 +179,8 @@ class DocenteView {
         $tmpl = new Template($contenido);
         $contenido = $tmpl->render($datosContenido);
 
-        $tmpl = new Template($contenido);
-        $contenido = $tmpl->render($datosMes);
+        //$tmpl = new Template($contenido);
+        //$contenido = $tmpl->render($datosMes);
 
         $tmpl = new Template($contenido);
         $contenido = $tmpl->render_regex($cursos, "LISTA_CURSOS");

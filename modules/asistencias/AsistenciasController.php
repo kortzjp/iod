@@ -75,10 +75,7 @@ class AsistenciasController {
     }
 
     public function guardar($arg = array()) {
-//        echo "<pre>";
-//        print_r($arg);
-//        print_r($_REQUEST);
-//        echo "</pre>";
+
         $save_asistencias = array();
         foreach ($_REQUEST['alumno'] as $alumno => $value) {
             $datos = explode('_', $alumno);

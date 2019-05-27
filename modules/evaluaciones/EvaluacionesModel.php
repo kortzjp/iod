@@ -38,11 +38,11 @@ class EvaluacionesModel extends DataBase {
     }
 
     public function dia($curso_id = '', $dia = '') {
-        $this->query = "SELECT c.id "
+        $this->query = "SELECT DISTINCT(e.dia) "
                 . " FROM cursan c, evaluaciones e "
                 . " WHERE c.curso = $curso_id "
                 . " AND c.id = e.id "
-                . " AND e.dia = '$dia'";
+                . " AND e.dia <= '$dia'";
 
         $this->get_query();
 

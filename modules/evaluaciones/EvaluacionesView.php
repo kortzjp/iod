@@ -21,17 +21,22 @@ class EvaluacionesView {
         print $footer;
     }
 
-    public function mostrar_lista($lista) {
+    public function mostrar_lista($lista, $dias) {
         $str = file_get_contents('./public/html/evaluaciones/evaluaciones_lista.html');
 
 
         $datos = array(
-            'asignatura' => $_POST['asignatura'],
-            'dia' => $_POST['dia']);
+            'asignatura' => $_POST['asignatura']);
         $obj = (object) $datos;
 
         $tml = new Template($str);
         $str = $tml->render($obj);
+
+        $tmpl = new Template($str);
+        $str = $tmpl->render_regex($dias, 'DIA');   // celdas de encabezado DIA
+
+        $tmpl = new Template($str);
+        $str = $tmpl->render_regex($dias, 'DIAS');   // celdas de fecha de evaluaciones DIAS
 
         $tmpl = new Template($str);
         $contenido = $tmpl->render_regex($lista, 'ALUMNOS');   // celdas de alumnos ALUMNOS

@@ -53,44 +53,74 @@ class EvaluacionesController {
                 header('Location: /docente/evaluaciones');
             } else {
                 // echo "lista de evaluaciones";
+                $clases = $this->modelo->dia($idCurso, $_POST['dia']);
+                $d = $_POST['dia'];
+                $encontrado = false;
+                foreach ($clases as $key => $value) {
+                    if ($value['dia'] == $d) {
+                        $encontrado = true;
+                    }
+                }
+                if (!$encontrado) {
+                    $dia = array('dia' => $d);
+                    array_push($clases, $dia);
+                }
+//                echo "<pre>";
+//                print_r($clases);
+//                echo "</pre>";
+//                exit();
+                $totalDias = count($clases);
+
+                $evaluacionesModelo = new EvaluacionesModel();
+                $evaluaciones_datos = $evaluacionesModelo->lista_evaluaciones($idCurso, $clases[0]['dia'], $clases[$totalDias - 1]['dia']);
 
                 $alumnoModelo = new AlumnoModel();
                 $alumnos = $alumnoModelo->lista($idCurso);
-                               
-                echo '<pre>';
-                print_r($alumnos);
-                echo '</pre>';
-//                $inicio = '2019/01/03';
-//                $fin = '2019/01/15';
-//                
-//                $evaluacionModelo = new EvaluacionesModel();
-//                $asistencias = $evaluacionModelo->lista_asistencias($idCurso, $inicio, $fin);
-//                var_dump($asistencias);
 
-                if (empty($asistencias)) {
-                    //header("Location: /docente/evaluaciones/error_dia");
+                if (empty($alumnos)) {
+                    header("location: /docente/evaluaciones/error_lista");
                 } else {
-//                    if (empty($alumnos)) {
-//                        header("location: /docente/evaluaciones/error_lista");
-//                    } else {
-//                        // obtener la lista de alumnos
-//
-//                        $auxAlumno = array();
-//                        $n = 0;
-//
-//                        foreach ($alumnos as $row => $alumno) {
-//                            // para cambiar de nombre en la lista
-//                            $auxAlumno[$n]['n'] = ($n + 1);
-//                            $auxAlumno[$n]['id'] = $alumno['id'];
-//                            $auxAlumno[$n]['matricula'] = $alumno['matricula'];
-//                            $auxAlumno[$n]['nombre'] = $alumno['nombre'];
-//                            $auxAlumno[$n]['estado'] = $alumno['estado'];
-//                            $n++;
-//                        }
-//
-//                        $this->vista->mostrar_lista($auxAlumno);
-//                    }
+                    // obtener la lista de alumnos
+
+                    $auxAlumno = array();
+                    $n = 0;
+
+                    foreach ($alumnos as $row => $alumno) {
+
+                        $auxAlumno[$n]['n'] = ($n + 1);
+                        $auxAlumno[$n]['id'] = $alumno['id'];
+                        $auxAlumno[$n]['matricula'] = $alumno['matricula'];
+                        $auxAlumno[$n]['nombre'] = $alumno['nombre'];
+                        $auxAlumno[$n]['estado'] = $alumno['estado'];
+
+                        $suma = 0;
+                        $d = 0;
+
+                        foreach ($evaluaciones_datos as $key => $unAlumno) {
+                            foreach ($clases as $key => $unDia) {
+                                if ($unAlumno['id'] == $alumno['id'] && $unAlumno['dia'] == $unDia['dia']) {
+                                    $auxAlumno[$n][$unDia['dia']] = $unAlumno['calificacion'];
+                                    $d++;
+                                    $suma += $unAlumno['calificacion'];
+                                }
+                            }
+                        }
+                        while ($d < $totalDias) {
+                            $auxAlumno[$n][$clases[$d]['dia']] = '<label> 0 <input type="radio" name="alumnos[' . $auxAlumno[$n]['id'] . '_' . $clases[$d]['dia'] . ']" value="0" > </label> '
+                                    . '<label> 1 <input type="radio" name="alumnos[' . $auxAlumno[$n]['id'] . '_' . $clases[$d]['dia'] . ']" value="1" checked > </label> '
+                                    . '<label> 2 <input type="radio" name="alumnos[' . $auxAlumno[$n]['id'] . '_' . $clases[$d]['dia'] . ']" value="2" checked > </label>';
+                            ;
+
+                            $d++;
+                        }
+
+                        $auxAlumno[$n]['porcentaje'] = number_format($suma * 100 / ($totalDias * 2), 0, '.', '');
+                        $n++;
+                    }
+
+                    $this->vista->mostrar_lista($auxAlumno, $clases);
                 }
+//                }
             }
         }
     }

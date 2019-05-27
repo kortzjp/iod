@@ -31,7 +31,10 @@
                                     <th>MATRÍCULA</th>
                                     <th>NOMBRE</th>
                                     <th>ESTADO</th>
+                                    <!--DIA-->
                                     <th>{dia}</th>
+                                    <!--DIA-->
+                                    <th> % </th>
                                 </tr>
                                 <!--ALUMNOS-->
                                 <tr class="{estado}" >                
@@ -39,11 +42,10 @@
                                     <td>{matricula}</td>
                                     <td class="name-left">{nombre}</td>
                                     <td>{estado}</td>                
-                                    <td>
-                                        <label>0 <input type="radio" name="alumnos[{id}_{dia}]" value="0" /></label>
-                                        <label>1 <input type="radio" name="alumnos[{id}_{dia}]" value="1" /></label>
-                                        <label>2 <input type="radio" name="alumnos[{id}_{dia}]" value="2" checked /></label>
-                                    </td>
+                                    <!--DIAS-->
+                                    <td>{{dia}}</td>
+                                    <!--DIAS-->
+                                    <td>{porcentaje}</td>
                                 </tr>
                                 <!--ALUMNOS-->
 
