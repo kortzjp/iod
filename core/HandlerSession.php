@@ -14,7 +14,7 @@ class HandlerSession {
             $this->destroy_session();
         } else {
 
-            $conexion = new mysqli("localhost", "root", "", "sistemastutorias");
+            $conexion = new mysqli( DB_HOST, DB_USER, DB_PASS, DB_NAME );
             $conexion->set_charset("utf8");
 
             if ($conexion->connect_errno) {

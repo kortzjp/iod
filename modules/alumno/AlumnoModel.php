@@ -90,8 +90,9 @@ class AlumnoModel extends DataBase {
         return $data;
     }
 
-    public function getPreguntas() {
-        $this->query = "SELECT * FROM preguntas ORDER BY idDimension";
+    public function getPreguntas( $dimension  ) {
+        
+        $this->query = "SELECT * FROM preguntas WHERE idDimension = " . $dimension ;
 
         $this->get_query();
         $num_rows = count($this->rows);
@@ -115,8 +116,10 @@ class AlumnoModel extends DataBase {
             if ($carrera == 1) {
                 if ($generacion < 18) {
                     $where = " usuario LIKE '" . $generacion . "__ISE%'";
-                } else {
+                } else if ($generacion == 18){
                     $where = " usuario LIKE '__" . $generacion . "072%'";
+                }else {
+                    $where = " usuario LIKE '__" . $generacion . "082%'";
                 }
             } else if ($carrera == 2) {
                 if ($generacion < 18) {
@@ -133,8 +136,11 @@ class AlumnoModel extends DataBase {
             } else if ($carrera == 5) {
                 if ($generacion < 18) {
                     $where = " usuario LIKE '" . $generacion . "__LAP%'";
-                } else {
+                } else if ($generacion == 18) {
                     $where = " usuario LIKE '__" . $generacion . "054%'";
+                }
+				else {
+                    $where = " usuario LIKE '__" . $generacion . "064%'";
                 }
             } else if ($carrera == 6) {
                 if ($generacion < 18) {

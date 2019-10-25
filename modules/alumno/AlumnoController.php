@@ -56,9 +56,11 @@ class AlumnoController {
 
         $this->modelo = new AlumnoModel();
         $cursos = $this->modelo->asignaturas_alumno($matricula);
-
+        
+        print_r($arg);
+        $dimension = empty($arg) ? 1 : 2;
         $this->modelo = new AlumnoModel();
-        $preguntas = $this->modelo->getPreguntas();
+        $preguntas = $this->modelo->getPreguntas($dimension);
 
         $this->vista->comenzarevaluacion($cursos, $preguntas);
     }

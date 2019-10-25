@@ -198,10 +198,10 @@ class TutorController {
         //$docente = $_SESSION['id'];
         $this->modelo = new DocenteModel();
         $datosDocente = $this->modelo->getDocente($arg[0]);
-        
-        $docente = $datosDocente[0]['id'];     
+
+        $docente = $datosDocente[0]['id'];
         $nombre = $datosDocente[0]['nombre'];
-        
+
         $this->modelo = new DocenteModel();
         $cursos = $this->modelo->getCursos($docente);
         // total de alumnos encuestados
@@ -257,7 +257,83 @@ class TutorController {
             else if ($promedio >= 70)
                 $color = "warning";
 
-            $this->vista->resultados($datos, $promedio, $color, $mensaje, $tipo, $nombre);
+            $this->vista->resultados($datos, $promedio, $color, $mensaje, $tipo, $nombre, $docente, $cursos);
+        }
+    }
+
+    // evalucion docente por curso
+    public function resultadosUnico($arg = array()) {
+        HandlerSession()->check_session(USER_TUTOR);
+        //$docente = $_SESSION['id'];
+        $this->modelo = new DocenteModel();
+        $datosDocente = $this->modelo->getDocente($_POST['docente']);
+
+        $docente = $datosDocente[0]['id'];
+        $nombre = $datosDocente[0]['nombre'];
+
+
+        $this->modelo = new DocenteModel();
+        $cursos = $this->modelo->curso($_POST['select']);
+        $grupo_n = $cursos[0]['grupo'];
+
+        $asignaturaModelo = new AsignaturaModel();
+        $asignaturas = $asignaturaModelo->get($cursos[0]['asignatura']);
+        $asignatura = $asignaturas[0]['nombre'];
+        
+        // total de alumnos encuestados
+        $totalEcuestados = 0;
+        foreach ($cursos as $curso) {
+            // aquí se podria sacar un total por curso
+            $this->modelo = new DocenteModel();
+            $totalEcuestados += $this->modelo->encuestados($curso["id"]);
+        }
+
+        // echo "Total de encuestados " . $totalEcuestados . "<br>";
+        $datos = array();
+        $mensaje = "";
+        $tipo = "";
+        if ($totalEcuestados == 0) {
+            $mensaje = "Por el momento aún no hay resultados.";
+            $tipo = "callout-warning";
+            $this->vista->resultados($datos, 0, 'red', $mensaje, $tipo, $nombre);
+        } else {
+            $this->modelo = new DocenteModel();
+            $dimensiones = $this->modelo->getDimensiones();
+            $sumaPromedio = 0;
+            $numeroDimensiones = 0;
+            foreach ($dimensiones as $key => $dimension) {
+
+                $this->modelo = new DocenteModel();
+                $encuestadosDimension = $this->modelo->puntosDimensionUnico($docente, $dimension["idDimension"], $_POST['select']);
+                // numero de puntos por dimension
+                $puntosDimension = $dimension["puntos"];
+                if ($encuestadosDimension[0]['obtenidos'] != NULL) {
+                    $puntosObtenidos = $encuestadosDimension[0]['obtenidos'];
+                    $porcentaje = (100 * $puntosObtenidos) / ($puntosDimension * $totalEcuestados);
+                    //echo "Dimension ". $dimension["idDimension"]. " ".$puntosDimension . " -  " . $puntosDimension * $totalEcuestados . " $puntosObtenidos - $porcentaje <br>";
+                    $sumaPromedio += round($porcentaje);
+                    $numeroDimensiones++;
+                    $color = "danger";
+                    if ($porcentaje >= 90)
+                        $color = "success";
+                    else if ($porcentaje >= 80)
+                        $color = "info";
+                    else if ($porcentaje >= 70)
+                        $color = "warning";
+                    $datos[] = array("id" => $dimension["idDimension"], "dimension" => $dimension["dimension"], "color" => $color, "porcentaje" => round($porcentaje));
+                }
+            }
+            //exit();
+            $promedio = $sumaPromedio / $numeroDimensiones;
+            $color = "danger";
+            if ($promedio >= 90)
+                $color = "success";
+            else if ($promedio >= 80)
+                $color = "info";
+            else if ($promedio >= 70)
+                $color = "warning";
+
+            $this->vista->resultadosUnicos($datos, $promedio, $color, $mensaje, $tipo, $nombre, $docente, $grupo_n, $asignatura);
         }
     }
 

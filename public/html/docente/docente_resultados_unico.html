@@ -24,7 +24,10 @@
         <!-- Default box -->
         <div class="box">
             <div class="box-header with-border">
+                <h3 class="box-title">Asignatura: {nombre_asignatura}</h3> <br>
                 <h3 class="box-title">Docente: {docente}</h3>
+                <br>
+                <h3 class="box-title">Grupo: {nombre_grupo}</h3>
                 <div class="box-tools pull-right">
                     <!-- <button type="button" class="btn btn-success" data-toggle="tooltip"
                             title="Imprimer el reporte">
@@ -69,35 +72,18 @@
                 </div>
                 <!-- /.box-body -->
 
+               
             </div>
             <!-- /.box-body -->
-            <div class="box-footer">
-                <section class="content-header">
-                    <h2>Selección de gráfica por curso</h2>
-                </section>
-
-
-                <div class="container">
-                    <form action="/tutor/resultadosUnico" method="post" target="_blank">
-                        <label>Curso: </label>
-                        <select name="select" id="select">
-                            <!--LISTA_CURSOS-->
-                            <option value="{id}">{nombre}</option>
-                            <!--LISTA_CURSOS-->
-                            <input type="hidden" name="docente" value="{curso}">
-                        </select>
-                        <input type="submit" name="Seleccionar">
-                    </form>
-                </div>
+            <div class="box-footer"
 
             </div>
+            <!-- /.box-footer-->
         </div>
-        <!-- /.box-footer-->
-</div>
-<!-- /.box -->
+        <!-- /.box -->
 
 
-</section>
-<!-- /.content -->
+    </section>
+    <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->

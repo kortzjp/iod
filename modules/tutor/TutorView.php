@@ -195,7 +195,7 @@ class TutorView {
         print $footer;
     }
 
-    public function resultados( $datosDimensiones, $promedio, $color, $mensaje, $tipo, $docente ) {
+    public function resultados( $datosDimensiones, $promedio, $color, $mensaje, $tipo, $docente, $cursos, $lista ) {
         $usuario = $_SESSION['usuario'];
         $nombre = $_SESSION['nombre'];
 
@@ -210,9 +210,41 @@ class TutorView {
         
         $tmpl = new Template($contenido);
         $contenido = $tmpl->render_regex($datosDimensiones, "LISTA_DIMENSIONES");
+
+        $tmpl = new Template($contenido);
+        $contenido = $tmpl->render_regex($lista, "LISTA_CURSOS");
+
         
         $datosContenido = array('color' => $color, 'promedio' => $promedio,
-            "mensaje" => $mensaje, "tipo" => $tipo, "docente" => $docente);
+            "mensaje" => $mensaje, "tipo" => $tipo, 'docente' => $docente,'curso' => $cursos);
+        $tmpl = new Template($contenido);
+        $contenido = $tmpl->render($datosContenido);
+        
+        print $header;
+        print $contenido;
+        print $footer;
+    }
+
+    public function resultadosUnicos($datosDimensiones, $promedio, $color, $mensaje, $tipo, $docente, $cursos, $grupo_n, $asignatura) {
+        $usuario = $_SESSION['usuario'];
+        $nombre = $_SESSION['nombre'];
+
+        $header = file_get_contents("./public/html/tutor/tutor_header.html");
+        $datosHeader = array('usuario' => $usuario, 'nombre' => $nombre);
+
+        $tmpl = new Template($header);
+        $header = $tmpl->render($datosHeader);
+
+        $footer = file_get_contents("./public/html/tutor/tutor_footer.html");
+        $contenido = file_get_contents("./public/html/docente/docente_resultados_unico.html");
+        
+        $tmpl = new Template($contenido);
+        $contenido = $tmpl->render_regex($datosDimensiones, "LISTA_DIMENSIONES");
+
+        
+        $datosContenido = array('color' => $color, 'promedio' => $promedio,
+            "mensaje" => $mensaje, "tipo" => $tipo, 'docente' => $docente, 
+            'nombre_grupo' => $grupo_n, 'nombre_asignatura' => $asignatura );
         $tmpl = new Template($contenido);
         $contenido = $tmpl->render($datosContenido);
         
