@@ -32,6 +32,19 @@ class AlumnoModel extends DataBase {
 
     public function edit($datos = array()) {
         
+        foreach ($datos as $key => $value) {
+            $$key = $value;
+        }
+
+        try {
+            $this->query = "REPLACE INTO alumnos( id, paterno, materno, nombre, genero) "
+                    . " VALUES( $id, '$paterno', '$materno', '$nombre', '$genero' ) ";
+            $this->set_query();
+        } catch (Exception $e) {
+            return 'Something fails: ' . $e->getMessage() . "\n";
+        }
+
+        return 'actualizado';
     }
 
     public function alumno($matricula) {
@@ -50,7 +63,7 @@ class AlumnoModel extends DataBase {
         return $data;
     }
     
-    public function contestoevaluacion( $matricula ){
+    public function contestoevaluacion( $matricula ){ 
         $this->query = "SELECT 1 FROM respuestas rp "
                 . " WHERE rp.cursan IN ( "
                 . " SELECT cr.id FROM usuarios al, cursan cr, cursos c, usuarios d, asignaturas a "

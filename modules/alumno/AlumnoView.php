@@ -116,19 +116,19 @@ class AlumnoView {
         }
     }
 
-    public function parcialesAlumnos($alumnos, $listaCursos) {
+    public function parcialesAlumnos($alumnos, $listaCursos,$modelo) {
 
         $usuario = $_SESSION['usuario'];
         $nombre = $_SESSION['nombre'];
 
-        $header = file_get_contents("./public/html/tutor/tutor_header.html");
+        $header = file_get_contents("./public/html/".$modelo."/".$modelo."_header.html");
         $datosHeader = array('usuario' => $usuario, 'nombre' => $nombre);
 
         $tmpl = new Template($header);
         $header = $tmpl->render($datosHeader);
 
-        $footer = file_get_contents("./public/html/tutor/tutor_footer.html");
-        $contenido = file_get_contents("./public/html/parcial/parciales_resultado.html");
+        $footer = file_get_contents("./public/html/".$modelo."/".$modelo."_footer.html");
+        $contenido = file_get_contents("./public/html/".$modelo."/".$modelo." _resultado.html");
 
         $grupo = '';
         if (isset($_POST['grupo']) && !empty($_POST['grupo']))
@@ -158,6 +158,47 @@ class AlumnoView {
         print $footer;
     }
 
+    public function parciales($alumnos, $listaCursos,$modelo) {
+
+        $usuario = $_SESSION['usuario'];
+        $nombre = $_SESSION['nombre'];
+
+        $header = file_get_contents("./public/html/".$modelo."/".$modelo."_header.html");
+        $datosHeader = array('usuario' => $usuario, 'nombre' => $nombre);
+
+        $tmpl = new Template($header);
+        $header = $tmpl->render($datosHeader);
+
+        $footer = file_get_contents("./public/html/".$modelo."/".$modelo."_footer.html");
+        $contenido = file_get_contents("./public/html/".$modelo."/".$modelo."_resultado.html");
+
+        $grupo = '';
+        if (isset($_POST['grupo']) && !empty($_POST['grupo']))
+            $grupo = ' DEL ' . $_POST['grupo'];
+        $tipo = '';
+        if (isset($_POST['estado']) && !empty($_POST['estado']))
+            $tipo = ' EN ' . $_POST['estado'];
+
+        $datos = array('grupo' => $grupo,
+            'tipo' => $tipo);
+        $objGrupo = (object) $datos;
+        
+        $tml = new Template($contenido);
+        $contenido = $tml->render($objGrupo);
+
+        $tmpl = new Template($contenido);
+        $contenido = $tmpl->render_regex($listaCursos, "ASIGNATURAS");
+
+        $tmpl = new Template($contenido);
+        $contenido = $tmpl->render_regex($listaCursos, 'CURSOS_ID');
+
+        $tmpl = new Template($contenido);
+        $contenido = $tmpl->render_regex($alumnos, "ALUMNOS");
+
+        print $header;
+        print $contenido;
+        print $footer;
+    }
     public function editar($carrera = array()) {
 
         if (empty($carrera)) {

@@ -1,26 +1,85 @@
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>
-        Alumno
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Alumno</a></li>
-        <li class="active">Home</li>
-      </ol>
+        <h1>
+            Alumno
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Alumno</a></li>
+            <li class="active">Home</li>
+        </ol>
     </section>
 
     <!-- Main content -->
-    <section class="content container-fluid">
+    <section class="content">
+        <div class="row">
+            <div class="col-md-3">
+                <img src="imagen.jpg" alt="alumno" width="200px" />
+            </div>
+            <div class="col-md-9">
 
-      <!--------------------------
-        | Your Page Content Here |
-        -------------------------->
-        
+                <section class="content container-fluid">
+                    <div class="col-md-6">
 
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Datos de Alumno</h3>
+                            </div>
+                            <!-- /.box-header -->
+                            <!-- form start -->
+                            <form action="/alumno/editar/" method="post" class="form-horizontal">
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label for="inputPaterno" class="col-sm-2 control-label">Apellido Paterno</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" name="paterno" class="form-control" id="inputPaterno" placeholder="Apellido paterno" required="">
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputMaterno" class="col-sm-2 control-label">Apellido Materno</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" name="materno" class="form-control" id="inputMaterno" placeholder="Apellido materno" required="">
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputNombre" class="col-sm-2 control-label">Nombre(s)</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" name="nombre" class="form-control" id="inputNombre" placeholder="Nombre o nombres" required="">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputEstado" class="col-sm-2 control-label">Genero</label>
+                                        <div class="col-sm-10">
+                                            <label>
+                                                <input type="radio" name="genero" id="optionsRadios" value="H">
+                                                Hombre
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="genero" id="optionsRadios" value="M" >
+                                                Mujer
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.box-body -->
+                                <div class="box-footer">                
+                                    <button type="submit" class="btn btn-info pull-right">Actualizar</button>
+                                </div>
+                                <!-- /.box-footer -->
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
     </section>
     <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
+</div>
+<!-- /.content-wrapper -->
