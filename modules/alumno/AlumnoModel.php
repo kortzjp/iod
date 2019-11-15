@@ -81,15 +81,26 @@ class AlumnoModel extends DataBase {
         return false;
     }
 
-    public function asignaturas_alumno($matricula) {
-        $this->query = "SELECT c.id, a.clave, a.nombre as 'asignatura', d.nombre as 'docente', c.grupo, cr.id as 'cursan'"
+    public function asignaturas_alumno($matricula, $cuatrimestre =  0 ) {
+        if( $cuatrimestre == 0 ){
+        $this->query = "SELECT c.id, a.clave, a.nombre as 'asignatura', d.nombre as 'docente', c.grupo, cr.id as 'cursan', a.cuatrimestre"
+                . " FROM usuarios al, cursan cr, cursos c, usuarios d, asignaturas a"
+                . " WHERE al.usuario = '$matricula'"
+                . " AND cr.alumno = al.id "
+                . " AND c.id = cr.curso "             
+                . " AND c.docente = d.id "
+                . " AND c.asignatura = a.id"
+                . " ORDER BY a.cuatrimestre DESC";
+        } else {
+            $this->query = "SELECT c.id, a.clave, a.nombre as 'asignatura', d.nombre as 'docente', c.grupo, cr.id as 'cursan'"
                 . " FROM usuarios al, cursan cr, cursos c, usuarios d, asignaturas a"
                 . " WHERE al.usuario = '$matricula'"
                 . " AND cr.alumno = al.id "
                 . " AND c.id = cr.curso "
-                //. " AND c.cuatrimestre = 3 "
+                . " AND c.cuatrimestre = $cuatrimestre "
                 . " AND c.docente = d.id "
                 . " AND c.asignatura = a.id";
+        }
 
         $this->get_query();
         $num_rows = count($this->rows);

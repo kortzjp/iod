@@ -128,7 +128,7 @@ class AlumnoView {
         $header = $tmpl->render($datosHeader);
 
         $footer = file_get_contents("./public/html/".$modelo."/".$modelo."_footer.html");
-        $contenido = file_get_contents("./public/html/".$modelo."/".$modelo." _resultado.html");
+        $contenido = file_get_contents("./public/html/".$modelo."/".$modelo."_resultado.html");
 
         $grupo = '';
         if (isset($_POST['grupo']) && !empty($_POST['grupo']))
@@ -137,8 +137,7 @@ class AlumnoView {
         if (isset($_POST['estado']) && !empty($_POST['estado']))
             $tipo = ' EN ' . $_POST['estado'];
 
-        $datos = array('grupo' => $grupo,
-            'tipo' => $tipo);
+        $datos = array('grupo' => $grupo, 'tipo' => $tipo, 'nombre' => $alumnos[0]['nombre']);
         $objGrupo = (object) $datos;
         
         $tml = new Template($contenido);
@@ -146,9 +145,6 @@ class AlumnoView {
 
         $tmpl = new Template($contenido);
         $contenido = $tmpl->render_regex($listaCursos, "ASIGNATURAS");
-
-        $tmpl = new Template($contenido);
-        $contenido = $tmpl->render_regex($listaCursos, 'CURSOS_ID');
 
         $tmpl = new Template($contenido);
         $contenido = $tmpl->render_regex($alumnos, "ALUMNOS");
@@ -188,9 +184,6 @@ class AlumnoView {
 
         $tmpl = new Template($contenido);
         $contenido = $tmpl->render_regex($listaCursos, "ASIGNATURAS");
-
-        $tmpl = new Template($contenido);
-        $contenido = $tmpl->render_regex($listaCursos, 'CURSOS_ID');
 
         $tmpl = new Template($contenido);
         $contenido = $tmpl->render_regex($alumnos, "ALUMNOS");

@@ -285,7 +285,7 @@ class AlumnoController {
         $matricula = "";
         $modulo = "alumno";
         $matricula = $_SESSION['usuario'];
-        
+
         if (!empty($matricula)) {
             $alumnoModelo = new AlumnoModel();
             $alumnos = $alumnoModelo->alumno($matricula);
