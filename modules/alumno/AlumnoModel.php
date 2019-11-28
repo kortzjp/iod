@@ -31,7 +31,7 @@ class AlumnoModel extends DataBase {
     }
 
     public function edit($datos = array()) {
-        
+
         foreach ($datos as $key => $value) {
             $$key = $value;
         }
@@ -62,44 +62,46 @@ class AlumnoModel extends DataBase {
 
         return $data;
     }
-    
-    public function contestoevaluacion( $matricula ){ 
-        $this->query = "SELECT 1 FROM respuestas rp "
-                . " WHERE rp.cursan IN ( "
-                . " SELECT cr.id FROM usuarios al, cursan cr, cursos c, usuarios d, asignaturas a "
-                . " WHERE al.usuario = '$matricula' "
-                . " AND cr.alumno = al.id "
-                . " AND c.id = cr.curso "
-                . " AND c.docente = d.id "
-                . " AND c.asignatura = a.id) "
-                . " LIMIT 1";
+
+    public function contestoevaluacion($idUsuario) {
+        $this->query = "SELECT DISTINCT(preguntas.idDimension) FROM preguntas"
+                . " WHERE preguntas.idDimension NOT IN ("
+                . " SELECT DISTINCT(pre.iddimension) FROM "
+                . " respuestas res,preguntas pre, cursan cur "
+                . " WHERE pre.idpregunta = res.pregunta AND cur.id = res.cursan"
+                . " AND cur.alumno = $idUsuario GROUP BY RES.pregunta )";
 
         $this->get_query();
         $num_rows = count($this->rows);
-        if( $num_rows > 0 )
-            return true;
-        return false;
+        // si ya no hay dimenciones por contestar el arreglo datat se enviara vacio  
+        $data = array();
+
+        foreach ($this->rows as $key => $value) {
+            array_push($data, $value);
+        }
+
+        return $data;
     }
 
-    public function asignaturas_alumno($matricula, $cuatrimestre =  0 ) {
-        if( $cuatrimestre == 0 ){
-        $this->query = "SELECT c.id, a.clave, a.nombre as 'asignatura', d.nombre as 'docente', c.grupo, cr.id as 'cursan', a.cuatrimestre"
-                . " FROM usuarios al, cursan cr, cursos c, usuarios d, asignaturas a"
-                . " WHERE al.usuario = '$matricula'"
-                . " AND cr.alumno = al.id "
-                . " AND c.id = cr.curso "             
-                . " AND c.docente = d.id "
-                . " AND c.asignatura = a.id"
-                . " ORDER BY a.cuatrimestre DESC";
+    public function asignaturas_alumno($matricula, $cuatrimestre = 0) {
+        if ($cuatrimestre == 0) {
+            $this->query = "SELECT c.id, a.clave, a.nombre as 'asignatura', d.nombre as 'docente', c.grupo, cr.id as 'cursan', a.cuatrimestre"
+                    . " FROM usuarios al, cursan cr, cursos c, usuarios d, asignaturas a"
+                    . " WHERE al.usuario = '$matricula'"
+                    . " AND cr.alumno = al.id "
+                    . " AND c.id = cr.curso "
+                    . " AND c.docente = d.id "
+                    . " AND c.asignatura = a.id"
+                    . " ORDER BY a.cuatrimestre DESC";
         } else {
             $this->query = "SELECT c.id, a.clave, a.nombre as 'asignatura', d.nombre as 'docente', c.grupo, cr.id as 'cursan'"
-                . " FROM usuarios al, cursan cr, cursos c, usuarios d, asignaturas a"
-                . " WHERE al.usuario = '$matricula'"
-                . " AND cr.alumno = al.id "
-                . " AND c.id = cr.curso "
-                . " AND c.cuatrimestre = $cuatrimestre "
-                . " AND c.docente = d.id "
-                . " AND c.asignatura = a.id";
+                    . " FROM usuarios al, cursan cr, cursos c, usuarios d, asignaturas a"
+                    . " WHERE al.usuario = '$matricula'"
+                    . " AND cr.alumno = al.id "
+                    . " AND c.id = cr.curso "
+                    . " AND c.cuatrimestre = $cuatrimestre "
+                    . " AND c.docente = d.id "
+                    . " AND c.asignatura = a.id";
         }
 
         $this->get_query();
@@ -114,9 +116,9 @@ class AlumnoModel extends DataBase {
         return $data;
     }
 
-    public function getPreguntas( $dimension  ) {
-        
-        $this->query = "SELECT * FROM preguntas WHERE idDimension = " . $dimension ;
+    public function getPreguntas($dimension) {
+
+        $this->query = "SELECT * FROM preguntas WHERE idDimension = " . $dimension;
 
         $this->get_query();
         $num_rows = count($this->rows);
@@ -140,9 +142,9 @@ class AlumnoModel extends DataBase {
             if ($carrera == 1) {
                 if ($generacion < 18) {
                     $where = " usuario LIKE '" . $generacion . "__ISE%'";
-                } else if ($generacion == 18){
+                } else if ($generacion == 18) {
                     $where = " usuario LIKE '__" . $generacion . "072%'";
-                }else {
+                } else {
                     $where = " usuario LIKE '__" . $generacion . "082%'";
                 }
             } else if ($carrera == 2) {
@@ -162,8 +164,7 @@ class AlumnoModel extends DataBase {
                     $where = " usuario LIKE '" . $generacion . "__LAP%'";
                 } else if ($generacion == 18) {
                     $where = " usuario LIKE '__" . $generacion . "054%'";
-                }
-				else {
+                } else {
                     $where = " usuario LIKE '__" . $generacion . "064%'";
                 }
             } else if ($carrera == 6) {

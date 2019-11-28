@@ -187,7 +187,6 @@ class TutorController {
         } else if (isset($arg[0]) && $arg[0] == 'no_editada') {
             $mensaje = 'Docente no editado.';
             $tipo = 'callout-danger';
-        
         } else if (isset($arg[0]) && $arg[0] == 'no_resultados') {
             $mensaje = 'Por el momento aún no hay resultados.';
             $tipo = 'callout-danger';
@@ -284,7 +283,7 @@ class TutorController {
         $asignaturaModelo = new AsignaturaModel();
         $asignaturas = $asignaturaModelo->get($cursos[0]['asignatura']);
         $asignatura = $asignaturas[0]['nombre'];
-        
+
         // total de alumnos encuestados
         $totalEcuestados = 0;
         foreach ($cursos as $curso) {
@@ -293,14 +292,17 @@ class TutorController {
             $totalEcuestados += $this->modelo->encuestados($curso["id"]);
         }
 
-        // echo "Total de encuestados " . $totalEcuestados . "<br>";
+//         echo "Total de encuestados " . $totalEcuestados . "<br>";
+//         exit(0);
         $datos = array();
         $mensaje = "";
         $tipo = "";
         if ($totalEcuestados == 0) {
             $mensaje = "Por el momento aún no hay resultados.";
             $tipo = "callout-warning";
-            $this->vista->resultados($datos, 0, 'red', $mensaje, $tipo, $nombre);
+            $arg[0] = $docente;
+            //$this->vista->resultados($arg);
+            header("Location: /tutor/resultados/".$docente);
         } else {
             $this->modelo = new DocenteModel();
             $dimensiones = $this->modelo->getDimensiones();
