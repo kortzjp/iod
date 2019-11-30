@@ -38,13 +38,14 @@ class ReportesModel extends DataBase {
         return $data;
     }
 
-    public function lista($grupo, $estado = '') {
+    public function lista($grupo, $cuatrimestre, $estado = '') {
         $this->query = ($estado != 'Todos') ? "SELECT id, usuario as 'matricula', nombre FROM usuarios "
                 . " WHERE id IN ("
                 . " SELECT DISTINCT(alumno) "
                 . " FROM cursos c, cursan cn "
                 . " WHERE c.grupo = '$grupo' "
-                . " AND c.id = cn.curso AND cn.estado = '$estado') "
+                . " AND c.id = cn.curso AND cn.estado = '$estado'"
+                . " AND c.cuatrimestre = $cuatrimestre ) "
                 . " AND activacion = 1"
                 . " ORDER BY nombre" 
                 : "SELECT id, usuario as 'matricula', nombre FROM usuarios "
@@ -52,7 +53,8 @@ class ReportesModel extends DataBase {
                 . " SELECT DISTINCT(alumno) "
                 . " FROM cursos c, cursan cn "
                 . " WHERE c.grupo LIKE '$grupo%' "
-                . " AND c.id = cn.curso ) "
+                . " AND c.id = cn.curso "
+                . " AND c.cuatrimestre = $cuatrimestre ) "
                 . " AND activacion = 1"
                 . " ORDER BY nombre";
 

@@ -187,13 +187,14 @@ class ParcialController {
         $grupo = $_POST['grupo'];
         $estado = $_POST['estado'];
 
-        // lista de alumnos del grupo solicitado
-        $reportesModel = new ReportesModel();
-        $alumnos = $reportesModel->lista($grupo, $estado);
-
         // obtener cuatrimestre activo
         $cuatrimestreModel = new CuatrimestreModel();
         $cuatrimestre = $cuatrimestreModel->get(1);
+        
+        // lista de alumnos del grupo solicitado
+        $reportesModel = new ReportesModel();
+        $alumnos = $reportesModel->lista($grupo, $cuatrimestre[0]['id'], $estado );
+
 
         // lista de asignaturas del grupo solicitado
         $reportesModel = new ReportesModel();

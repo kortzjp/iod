@@ -98,7 +98,7 @@ class CuadrantesModel extends DataBase {
     public function lista($grupo, $cuatrimestre) {
         $this->query = "SELECT c.id, a.nombre as 'asignatura', d.nombre as 'docente', c.grupo "
                 . " FROM cursos c, usuarios d, asignaturas a"
-                . " WHERE c.grupo LIKE '%$grupo%'"
+                . " WHERE c.grupo LIKE '$grupo'"
                 . " AND c.cuatrimestre = $cuatrimestre "
                 . " AND c.docente = d.id "
                 . " AND c.asignatura = a.id "
