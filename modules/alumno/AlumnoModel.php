@@ -69,7 +69,7 @@ class AlumnoModel extends DataBase {
                 . " SELECT DISTINCT(pre.iddimension) FROM "
                 . " respuestas res,preguntas pre, cursan cur "
                 . " WHERE pre.idpregunta = res.pregunta AND cur.id = res.cursan"
-                . " AND cur.alumno = $idUsuario GROUP BY RES.pregunta )";
+                . " AND cur.alumno = $idUsuario GROUP BY res.pregunta )";
 
         $this->get_query();
         $num_rows = count($this->rows);
@@ -85,14 +85,14 @@ class AlumnoModel extends DataBase {
 
     public function asignaturas_alumno($matricula, $cuatrimestre = 0) {
         if ($cuatrimestre == 0) {
-            $this->query = "SELECT c.id, a.clave, a.nombre as 'asignatura', d.nombre as 'docente', c.grupo, cr.id as 'cursan', a.cuatrimestre"
+            $this->query = "SELECT c.id, a.clave, a.nombre as 'asignatura', d.nombre as 'docente', c.grupo, cr.id as 'cursan', a.cuatrimestre, cr.estado"
                     . " FROM usuarios al, cursan cr, cursos c, usuarios d, asignaturas a"
                     . " WHERE al.usuario = '$matricula'"
                     . " AND cr.alumno = al.id "
                     . " AND c.id = cr.curso "
                     . " AND c.docente = d.id "
                     . " AND c.asignatura = a.id"
-                    . " ORDER BY a.cuatrimestre DESC";
+                    . " ORDER BY a.cuatrimestre DESC, cr.estado DESC";
         } else {
             $this->query = "SELECT c.id, a.clave, a.nombre as 'asignatura', d.nombre as 'docente', c.grupo, cr.id as 'cursan'"
                     . " FROM usuarios al, cursan cr, cursos c, usuarios d, asignaturas a"
