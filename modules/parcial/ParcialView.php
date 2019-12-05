@@ -52,6 +52,23 @@ class ParcialView {
         print $footer;
     }
 
+    public function corregir() {
+        $usuario = $_SESSION['usuario'];
+        $nombre = $_SESSION['nombre'];
+        $header = file_get_contents("./public/html/admin/admin_header.html");
+        $datosHeader = array('usuario' => $usuario, 'nombre' => $nombre);
+
+        $tmpl = new Template($header);
+        $header = $tmpl->render($datosHeader);
+
+        $contenido = file_get_contents("./public/html/parcial/parcial_corregir.html");
+        $footer = file_get_contents("./public/html/admin/admin_footer.html");
+
+        print $header;
+        print $contenido;
+        print $footer;
+    }
+
     public function resultados($lista, $datos) {
         $str = file_get_contents('./public/html/parcial/parcial_final.html');
 

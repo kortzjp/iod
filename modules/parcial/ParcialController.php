@@ -109,6 +109,12 @@ class ParcialController {
             }
         }
     }
+    
+    public function corregir($arg = array() ) {
+        HandlerSession()->check_session(USER_ADMIN);
+        
+        $this->vista->corregir();
+    }
 
     public function registrar($arg = array()) {
         HandlerSession()->check_session(USER_DOC);
