@@ -148,6 +148,13 @@ class AlumnoView {
 
         $tmpl = new Template($contenido);
         $contenido = $tmpl->render_regex($alumnos, "ALUMNOS");
+        
+        $tmpl = new Template($contenido);
+        $contenido = $tmpl->render_regex($listaCursos, "PARCIAL_EDITAR");
+
+        $tmpl = new Template($contenido);
+        $contenido = $tmpl->render_regex($alumnos, "PARCIAL_EDITAR2");
+
 
         print $header;
         print $contenido;

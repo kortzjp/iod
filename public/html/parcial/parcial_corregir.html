@@ -4,7 +4,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Page Header
+            Corregir calificacón parical
             <small>Optional description</small>
         </h1>
         <ol class="breadcrumb">
@@ -15,64 +15,118 @@
 
     <!-- Main content -->
     <section class="content container-fluid">
-        <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-6">
 
-            <div class="box box-info">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Horizontal Form</h3>
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Buscar calificación</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form action="/parcial/corregir/" method="post" class="form-horizontal" autocomplete="off">
+                        <div class="modal-body">
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                        <div class="form-group">                                    
+                                            <div class="col-sm-10">
+                                                <select class="form-control" name="cuatrimestre" required >
+                                                    <option value="">Cuatrimestre</option>
+                                                    <!--LISTA_CUATRIMESTRES-->
+                                                    <option value="{id}">{nombre}</option>
+                                                    <!--LISTA_CUATRIMESTRES-->
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <!--<label class="col-sm-2 control-label">Asignatura</label>-->
+                                            <div class="col-sm-10">
+                                                <select class="form-control" name="asignatura" required >
+                                                    <option value="">Asignatura</option>
+                                                    <!--LISTA_ASIGNATURAS-->
+                                                    <option value="{id}">{nombre}</option>
+                                                    <!--LISTA_ASIGNATURAS-->
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <!--<label class="col-sm-2 control-label">Docente</label>-->
+                                            <div class="col-sm-10">
+                                                <select class="form-control" name="docente">
+                                                    <option value="">Docente</option>
+                                                    <!--LISTA_DOCENTES-->
+                                                    <option value="{id}">{nombre}</option>
+                                                    <!--LISTA_DOCENTES-->
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+
+                                            <div class="col-sm-10">
+                                                <input type="text" name="matricula" class="form-control text-uppercase" id="matricula" placeholder="MATRICULA" required />
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-10">
+                                            <label>Parcial</label>
+                                            <label> 1 <input type="radio" name="parcial" value="primero" /> </label>
+                                            <label> 2 <input type="radio" name="parcial" value="segundo" /></label>
+                                            <label> 3 <input type="radio" name="parcial" value="tercero" /></label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-success">Buscar</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <!-- /.box-header -->
-                <!-- form start -->
-                <form action="/curso/crear/" method="post" class="form-horizontal" autocomplete="off">
-                    <div class="modal-body">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Actualizar calificación</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+
+                    <form action="/parcial/actualizar/" method="post" class="form-horizontal" autocomplete="off">
                         <div class="box-body">
                             <div class="row">
                                 <div class="col-md-6">
-                                    
 
-                                    <div class="form-group">
-                                        <!--<label class="col-sm-2 control-label">Asignatura</label>-->
+                                    <div class="form-group">                                    
                                         <div class="col-sm-10">
-                                            <select class="form-control" name="asignatura" required >
-                                                <option value="">Asignatura</option>
-                                                <!--LISTA_ASIGNATURAS-->
-                                                <option value="{id}">{nombre}</option>
-                                                <!--LISTA_ASIGNATURAS-->
-                                            </select>
+                                            Calificacion actual: {calificacion}
                                         </div>
                                     </div>
-
-                                    <div class="form-group">
-                                        <!--<label class="col-sm-2 control-label">Docente</label>-->
-                                        <div class="col-sm-10">
-                                            <select class="form-control" name="docente">
-                                                <option value="">Docente</option>
-                                                <!--LISTA_DOCENTES-->
-                                                <option value="{id}">{nombre}</option>
-                                                <!--LISTA_DOCENTES-->
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <!--<label class="col-sm-2 control-label">Grupo</label>-->
-
-                                        <div class="col-sm-10">
-                                            <input type="text" name="matriucla" class="form-control text-uppercase" id="matricula" placeholder="MATRICULA" required />
-
+                                    <div class="form-group">                                    
+                                        <div class="col-sm-10">                                            
+                                            Nuava calificaión: <input type="text" name="parcial" required />
                                         </div>
                                     </div>
                                 </div>
-                                
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-success">Actualizar</button>
-                        </div>
-                    </div>
-                </form>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-success">Guardar</button>
+                            </div>
+                    </form>
+
+                </div>
             </div>
-        </div>
     </section>
     <!-- /.content -->
 </div>

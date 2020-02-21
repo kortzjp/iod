@@ -102,5 +102,12 @@ class ParcialModel extends DataBase {
     protected function edit() {
         
     }
+    
+    public function editar($idalumno, $idcurso, $parcial, $valor) {
+        $this->query = "UPDATE parciales SET $parcial=$valor "
+        ."WHERE id=(SELECT c.id FROM cursan c WHERE c.curso=$idcurso and c.alumno=$idalumno);";
+
+        return $this->set_query();
+    }
 
 }

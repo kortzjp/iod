@@ -81,13 +81,17 @@ class AlumnoController {
     }
 
     public function reporte($arg = array()) {
-        if (empty($arg))
+      //  if (empty($arg))
             HandlerSession()->check_session(USER_TUTOR);
-        else
-            HandlerSession()->check_session(USER_ALUM);
+    //    else
+      //      HandlerSession()->check_session(USER_ALUM);
 
         $matricula = "";
         $modulo = "tutor";
+        //si el tutor modifica un parcial, se manda la matricula como arg
+        if (count($arg)>0) {
+                $matricula= $arg[0];
+            }
         // si el alumno consulta sus calificaciones, existen el argumento usuario
         if (isset($arg['usuario']) && !empty($arg['usuario'])) {
             $matricula = $arg['usuario'];
@@ -152,7 +156,7 @@ class AlumnoController {
 
                         foreach ($listaparciales as $key => $rowCalif) {
                             if ($rowCalif['matricula'] == $alumno['matricula']) {
-
+                                $auxAlumno[$n]['idalumno'] = $rowCalif['id'];
                                 $auxAlumno[$n]['primero' . $curso['id']] = $rowCalif['primero'];
                                 $auxAlumno[$n]['segundo' . $curso['id']] = $rowCalif['segundo'];
                                 $auxAlumno[$n]['tercero' . $curso['id']] = $rowCalif['tercero'];
@@ -161,27 +165,27 @@ class AlumnoController {
                                 $auxAlumno[$n]['promedio' . $curso['id']] = number_format($promedio, 2, '.', '');
 
 
-                                if ($rowCalif['primero'] < 7) {
+                                if ($rowCalif['primero'] < 70) {
                                     $reprobadasP1++;
                                     $auxAlumno[$n]['reprobadaP1' . $curso['id']] = 'reprobado';
                                 }
-                                if ($rowCalif['segundo'] < 7) {
+                                if ($rowCalif['segundo'] < 70) {
                                     $reprobadasP2++;
                                     $auxAlumno[$n]['reprobadaP2' . $curso['id']] = 'reprobado';
                                 }
-                                if ($rowCalif['tercero'] < 7) {
+                                if ($rowCalif['tercero'] < 70) {
                                     $reprobadasP3++;
                                     $auxAlumno[$n]['reprobadaP3' . $curso['id']] = 'reprobado';
                                 }
 
-                                if ($promedio < 7.0) {
-                                    $auxAlumno[$n]['final' . $curso['id']] = 6;
+                                if ($promedio < 70) {
+                                    $auxAlumno[$n]['final' . $curso['id']] = 60;
                                     $reprobadasp++;
-                                    $promedioG += 6;
+                                    $promedioG += 60;
                                     $materias++;
                                     $auxAlumno[$n]['reprobadaP' . $curso['id']] = 'reprobado';
                                 } else {
-                                    $final = round($promedio, 0);
+                                    $final = $this->redondear($promedio);
                                     $promedioG += $final;
                                     $materias++;
                                     $auxAlumno[$n]['final' . $curso['id']] = $final;
@@ -352,27 +356,27 @@ class AlumnoController {
                             $auxAlumno[$n]['promedio' . $curso['id']] = number_format($promedio, 2, '.', '');
 
 
-                            if ($rowCalif['primero'] < 7) {
+                            if ($rowCalif['primero'] < 70) {
                                 $reprobadasP1++;
                                 $auxAlumno[$n]['reprobadaP1' . $curso['id']] = 'reprobado';
                             }
-                            if ($rowCalif['segundo'] < 7) {
+                            if ($rowCalif['segundo'] < 70) {
                                 $reprobadasP2++;
                                 $auxAlumno[$n]['reprobadaP2' . $curso['id']] = 'reprobado';
                             }
-                            if ($rowCalif['tercero'] < 7) {
+                            if ($rowCalif['tercero'] < 70) {
                                 $reprobadasP3++;
                                 $auxAlumno[$n]['reprobadaP3' . $curso['id']] = 'reprobado';
                             }
 
-                            if ($promedio < 7.0) {
-                                $auxAlumno[$n]['final' . $curso['id']] = 6;
+                            if ($promedio < 70) {
+                                $auxAlumno[$n]['final' . $curso['id']] = 60;
                                 $reprobadasp++;
-                                $promedioG += 6;
+                                $promedioG += 60;
                                 $materias++;
                                 $auxAlumno[$n]['reprobadaP' . $curso['id']] = 'reprobado';
                             } else {
-                                $final = round($promedio, 0);
+                                $final = $this->redondear($promedio);
                                 $promedioG += $final;
                                 $materias++;
                                 $auxAlumno[$n]['final' . $curso['id']] = $final;
@@ -421,6 +425,23 @@ class AlumnoController {
     public function confirmar($mensaje = '') {
 
         echo $mensaje;
+    }
+    
+    //convierte el promedio de una calificaci¨®n final m¨²ltiplo de 10
+    private function redondear($dato)
+    {
+        $dato= number_format($dato,0);
+        if ($dato<70) {
+            $calificacion= 60;
+        } else{
+            $residuo= $dato%10;
+            if ($residuo<5) {
+                $calificacion= $dato-$residuo;
+            } else{
+                $calificacion= $dato+10-$residuo;
+            }
+        }
+        return $calificacion;
     }
 
 }

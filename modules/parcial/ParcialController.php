@@ -90,14 +90,15 @@ class ParcialController {
                     if ($promedio == NULL) {
                         $promedio = '-';
                     } else {
-                        $promedio = round($promedio / 3, 2);
-                        $promedio = number_format($promedio, 2, '.', '');
+                      $promedio = $promedio / 3; 
+                      $promedio = number_format($promedio, 1); // decidir decimal   
 
-                        if ($promedio < 7.0) {
-                            $final = 6;
+                        if ($promedio < 70) {
+                            $final = 60;
                             $auxAlumno[$n]['clase'] = 'reprobado';
                         } else {
-                            $final = round($promedio, 0);
+                            //round eliminado
+                            $final = $this->redondear($promedio);
                         }
                     }
                     $auxAlumno[$n]['promedio'] = $promedio;
@@ -108,12 +109,6 @@ class ParcialController {
                 $this->vista->resultados($auxAlumno, $data);
             }
         }
-    }
-    
-    public function corregir($arg = array() ) {
-        HandlerSession()->check_session(USER_ADMIN);
-        
-        $this->vista->corregir();
     }
 
     public function registrar($arg = array()) {
@@ -153,8 +148,9 @@ class ParcialController {
                         $auxAlumno[$n]['estado'] = $alumno['estado'];
 
                         if ($alumnos[$n][$parcial] == NULL) {
-                            $auxAlumno[$n]['calificacion'] = '<input type="text" name="alumno[' . $alumnos[$n]['id'] . ']"
-                        size="6" required  pattern="\d{0,2}(\.\d{2})?" onblur="return validarRango(this);" >';
+                            //removido (\.\d{2}) type number onblur="return validarRango(this); min 0 max 100
+                            $auxAlumno[$n]['calificacion'] = '<input type="number" name="alumno[' . $alumnos[$n]['id'] . ']"
+                        size="6" required  pattern="\d{0,3}" min="0" max="100" >';
                         } else {
                             $auxAlumno[$n]['calificacion'] = $alumnos[$n][$parcial];
                         }
@@ -245,40 +241,40 @@ class ParcialController {
                         $auxAlumno[$n]['segundo' . $curso['id']] = $rowCalif['segundo'];
                         $auxAlumno[$n]['tercero' . $curso['id']] = $rowCalif['tercero'];
                         $promedio = ($rowCalif['primero'] + $rowCalif['segundo'] + $rowCalif['tercero']) / 3;
-                        $auxAlumno[$n]['promedio' . $curso['id']] = number_format($promedio, 2, '.', '');
+                        $auxAlumno[$n]['promedio' . $curso['id']] = number_format($promedio, 2); //promedio aun sin redondeo
 
-                        if ($rowCalif['primero'] < 7) {
+                        if ($rowCalif['primero'] < 70) {
                             $reprobadasP1++;
                             $auxAlumno[$n]['reprobadaP1' . $curso['id']] = 'reprobado';
                         }
-                        if ($rowCalif['segundo'] < 7) {
+                        if ($rowCalif['segundo'] < 70) {
                             $reprobadasP2++;
                             $auxAlumno[$n]['reprobadaP2' . $curso['id']] = 'reprobado';
                         }
-                        if ($rowCalif['tercero'] < 7) {
+                        if ($rowCalif['tercero'] < 70) {
                             $reprobadasP3++;
                             $auxAlumno[$n]['reprobadaP3' . $curso['id']] = 'reprobado';
                         }
 
-                        if ($promedio < 7.0) {
-                            $auxAlumno[$n]['final' . $curso['id']] = 6;
+                        if ($promedio < 70) {
+                            $auxAlumno[$n]['final' . $curso['id']] = 60;
                             $reprobadasp++;
-                            $promedioG += 6;
+                            $promedioG += 60;
                             $materias++;
                             $auxAlumno[$n]['reprobadaP' . $curso['id']] = 'reprobado';
-                        } else {
-                            $final = round($promedio, 0);
+                        } else {  // eliminar round
+                            $final = $this->redondear($promedio);
                             $promedioG += $final;
                             $materias++;
-                            $auxAlumno[$n]['final' . $curso['id']] = $final;
+                            $auxAlumno[$n]['final' . $curso['id']] = number_format($final, 0); //agregado number format
                         }
-                        break;
+                       // break;
                     }
                 }
             }
 
             $promedioG = $promedioG / $materias;
-            $auxAlumno[$n]['promedio'] = number_format($promedioG, 2, '.', '');
+            $auxAlumno[$n]['promedio'] = number_format($promedioG, 0); ;         //modificado format promedio general
 
             $auxAlumno[$n]['clase1'] = '';
             if ($reprobadasP1 > 2) {
@@ -308,4 +304,30 @@ class ParcialController {
         $this->vista->parcialesAlumnos($auxAlumno, $listacursos);
     }
 
+    //convierte el promedio de una calificación final múltiplo de 10
+    private function redondear($dato){
+        $dato= number_format($dato,0);
+        if ($dato<70) {
+            $calificacion= 60;
+        } else{
+            $residuo= $dato%10;
+            if ($residuo<5) {
+                $calificacion= $dato-$residuo;
+            } else{
+                $calificacion= $dato+10-$residuo;
+            }
+        }
+        return $calificacion;
+    }
+    
+    //editar una calificacion parcial
+    public function editar(){
+        $idalumno= $_POST['idalumno'];
+        $idcurso= $_POST['curso'];
+        $parcial= $_POST['parcial'];
+        $valor= $_POST['valor'];
+        $matricula= $_POST['matricula'];
+        $this->modelo->editar($idalumno, $idcurso, $parcial, $valor);
+        header('Location: /alumno/reporte/'.$matricula);
+    }
 }

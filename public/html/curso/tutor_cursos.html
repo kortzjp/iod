@@ -38,23 +38,30 @@
                             </div>
                         </div>
                     </div>
+                    <div class="box-tools">
+                        <label for="buscar">Buscar curso por palabra clave: </label><input id="buscar" type="text" placeholder="Buscar...">
+                    </div>
                     <!-- /.box-header -->
                     <div class="box-body table-responsive no-padding">
-                        <table class="table table-hover">
-                            <tr>
-                                <th>GRUPO</th>
-                                <th>ASIGNATURA</th>                                
-                                <th>DOCENTE</th>                                
-                                <th>ACCIONES</th>
-                            </tr>
+                        <table id="tabla" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>GRUPO</th>
+                                    <th>ASIGNATURA</th>                                
+                                    <th>DOCENTE</th>                                
+                                    <th>ACCIONES</th>
+                                </tr>
+                            </thead>
+                            <tbody>
                             <!--LISTA_CURSOS-->
-                            <tr>
-                                <td>{grupo}</td>
-                                <td>{asignatura}</td>
-                                <td>{docente}</td>                                
-                                <td> Actualizar - Eliminar </td>                                                                
-                            </tr>
+                                <tr>
+                                    <td>{grupo}</td>
+                                    <td>{asignatura}</td>
+                                    <td>{docente}</td>                                
+                                    <td> Actualizar - Eliminar </td>                                                                
+                                </tr>
                             <!--LISTA_CURSOS-->
+                            </tbody>
                         </table>
                     </div>
                     <!-- /.box-body -->
@@ -84,7 +91,7 @@
                                             <select class="form-control" name="cuatrimestre" required >
                                                 <option value="">Cuatrimestre</option>
                                                 <!--LISTA_CUATRIMESTRE-->
-                                                <option value="{id}">{nombre}</option>
+                                                <option value="{id}" {selected}>{nombre}</option>
                                                 <!--LISTA_CUATRIMESTRE-->
                                             </select>
                                         </div>
@@ -118,7 +125,7 @@
                                         <!--<label class="col-sm-2 control-label">Grupo</label>-->
 
                                         <div class="col-sm-10">
-                                            <input type="text" name="grupo" class="form-control text-uppercase" id="grupo" placeholder="GRUPO" required />
+                                            <input type="text" name="grupo" class="form-control text-uppercase" id="grupo" placeholder="Ej. ISC101, LAP1001E" required />
 
                                         </div>
                                     </div>

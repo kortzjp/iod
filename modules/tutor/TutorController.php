@@ -108,6 +108,15 @@ class TutorController {
 
         $cuatriModelo = new CuatrimestreModel();
         $cuatrimestre = $cuatriModelo->get(0);
+        
+        //Escribe el parametro selected para el cuatrimestre activo]
+        foreach ($cuatrimestre as $key => $value) {
+            if ($value['estado']==1) {
+                $cuatrimestre[$key]['selected'] = 'selected';
+            } else{
+                $cuatrimestre[$key]['selected']= '';
+            }
+        }
 
         $asignaturaModelo = new AsignaturaModel();
         $carrera = $tutor[0]['carrera'];

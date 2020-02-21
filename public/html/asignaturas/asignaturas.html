@@ -40,31 +40,38 @@
                             </div>
                         </div>
                     </div>
+                    <div class="box-tools">
+                        <label for="buscar">Buscar asignatura por palabra clave:  </label><input id="buscar" type="text" placeholder="Buscar...">
+                    </div>
                     <!-- /.box-header -->
                     <div class="box-body table-responsive no-padding">
-                        <table class="table table-hover">
-                            <tr>
-                                <th>ID</th>
-                                <th>Clave</th>
-                                <th>Nombre</th>
-                                <th>Cuatrimestre</th>
-                                <th>Acciones</th>
-                            </tr>
+                        <table id="tabla" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Clave</th>
+                                    <th>Nombre</th>
+                                    <th>Cuatrimestre</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
                             <!--LISTA_ASIGNATURAS-->
-                            <tr>
-                                <td>{id}</td>
-                                <td>{clave}</td>
-                                <td>{nombre}</td>
-                                <td>{cuatrimestre}</td>
-                                <td>
-                                    <div class="input-group-btn">
-                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-info{id}">
-                                        <i class="fa fa-fw fa-pencil"></i>
-                                    </button>
-                                </div>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td>{id}</td>
+                                    <td>{clave}</td>
+                                    <td>{nombre}</td>
+                                    <td>{cuatrimestre}</td>
+                                    <td>
+                                        <div class="input-group-btn">
+                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-info{id}">
+                                            <i class="fa fa-fw fa-pencil"></i>
+                                        </button>
+                                    </div>
+                                    </td>
+                                </tr>
                             <!--LISTA_ASIGNATURAS-->
+                            </tbody>
                         </table>
                     </div>
                     <!-- /.box-body -->

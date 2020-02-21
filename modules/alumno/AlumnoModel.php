@@ -136,56 +136,44 @@ class AlumnoModel extends DataBase {
         if (!empty($matricula)) {
             $this->query = "SELECT id, usuario as 'matricula', nombre FROM usuarios "
                     . " WHERE usuario = '$matricula' "
+                    . " AND activacion = 1 "
                     . " AND id NOT IN( SELECT alumno FROM cursan WHERE curso = $curso)";
         } else {
-            $where = "";
-            if ($carrera == 1) {
-                if ($generacion < 18) {
-                    $where = " usuario LIKE '" . $generacion . "__ISE%'";
-                } else if ($generacion == 18) {
-                    $where = " usuario LIKE '__" . $generacion . "072%'";
-                } else {
-                    $where = " usuario LIKE '__" . $generacion . "082%'";
+                
+                $trama = $this->getTrama($generacion, $carrera);
+                //print_r ($trama);
+              //  exit;
+                $ntramas= count($trama);
+                    $consulta= "SELECT id, usuario as 'matricula', nombre FROM usuarios WHERE (usuario LIKE '".$trama[0]['trama']."___'";
+
+                    for ($i=1; $i <$ntramas ; $i++) { 
+                            $consulta= $consulta. " OR usuario LIKE '".$trama[$i]['trama']."___'";
+                    }
+
+                    $consulta= $consulta. ") "
+                    . " AND activacion = 1 "
+                    . " AND id NOT IN( SELECT alumno FROM cursan WHERE curso = $curso) ORDER BY nombre ";
+                    $this->query= $consulta;
                 }
-            } else if ($carrera == 2) {
-                if ($generacion < 18) {
-                    $where = " usuario LIKE '" . $generacion . "__IRT%'";
-                } else {
-                    $where = " usuario LIKE '__" . $generacion . "061%'";
-                }
-            } else if ($carrera == 3) {
-                if ($generacion < 18) {
-                    $where = " usuario LIKE '" . $generacion . "__ITM%'";
-                } else {
-                    $where = " usuario LIKE '__" . $generacion . "073%'";
-                }
-            } else if ($carrera == 5) {
-                if ($generacion < 18) {
-                    $where = " usuario LIKE '" . $generacion . "__LAP%'";
-                } else if ($generacion == 18) {
-                    $where = " usuario LIKE '__" . $generacion . "054%'";
-                } else {
-                    $where = " usuario LIKE '__" . $generacion . "064%'";
-                }
-            } else if ($carrera == 6) {
-                if ($generacion < 18) {
-                    $where = " usuario LIKE '" . $generacion . "__LTF%'";
-                } else {
-                    $where = " usuario LIKE '__" . $generacion . "025%'";
-                }
-            }
-            $this->query = "SELECT id, usuario as 'matricula', nombre FROM usuarios WHERE"
-                    . $where
-                    . " AND id NOT IN( SELECT alumno FROM cursan WHERE curso = $curso)"
-                    . " ORDER BY nombre ";
-        }
-        $this->get_query();
+              $this->get_query();
 
         $data = array();
         foreach ($this->rows as $key => $value) {
             array_push($data, $value);
         }
         return $data;
+    }
+    
+    public function getTrama($generacion, $carrera){
+        $this->query = "SELECT trama FROM generacion WHERE carrera= $carrera AND anio= $generacion";
+        $this->get_query();
+        $trama = array();
+                foreach ($this->rows as $key => $value) {
+                    array_push($trama, $value);
+                }
+            $this->rows= array();
+        return $trama;
+
     }
 
     public function set($data = array()) {

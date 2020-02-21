@@ -2,7 +2,7 @@
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-        <h1>CALIFICACIONES DE {nombre}</h1>
+        <h1>CALIFICACIONES</h1>
 
     </section>
 
@@ -25,9 +25,8 @@
                             <!--ALUMNOS-->
                             <tr>
                                 <th> CUATRIMESTRE </th>
-                                <th>ASIGNATURAS</th> 
-                                <th> </th> 
-                                <th> Parcial 1 </th>
+                                <th>ASIGNATURAS</th>                                
+                                <th> Parcial 1  </th>
                                 <th> Parcial 2 </th>
                                 <th> Parcial 3 </th>
                                 <th> Promedio </th>
@@ -37,10 +36,27 @@
                             <tr>
                                 <td class="text-center">{cuatrimestre}</td>
                                 <td>{asignatura}</td>
-                                <td>{estado}</td>
-                                <td><span class="{reprobadaP1{id}}">{primero{id}}</span></td>
-                                <td><span class="{reprobadaP2{id}}">{segundo{id}}</span></td>
-                                <td><span class="{reprobadaP3{id}}">{tercero{id}}</span></td>
+                                <td><span class="{reprobadaP1{id}}">{primero{id}}</span>
+                                    <div class="input-group-btn" data-toggle="tooltip" data-placement="left" title="Editar">
+                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-info{id}primero">
+                                            <i class="fa fa-fw fa-pencil"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td><span class="{reprobadaP2{id}}">{segundo{id}}</span>
+                                    <div class="input-group-btn" data-toggle="tooltip" data-placement="left" title="Editar">
+                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-info{id}segundo">
+                                            <i class="fa fa-fw fa-pencil"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td><span class="{reprobadaP3{id}}">{tercero{id}}</span>
+                                    <div class="input-group-btn" data-toggle="tooltip" data-placement="left" title="Editar">
+                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-info{id}tercero">
+                                            <i class="fa fa-fw fa-pencil"></i>
+                                        </button>
+                                    </div>
+                                </td>
                                 <td><span class="{reprobadaP{id}}">{promedio{id}}</span></td>
                                 <td><span class="{reprobadaP{id}}"><strong>{final{id}}</strong></span></td>
                             </tr>
@@ -55,6 +71,118 @@
         </div>
     </section>
     <!-- /.content -->
+
+<!--PARCIAL_EDITAR-->
+<!--PARCIAL_EDITAR2-->
+<div class="modal in" id="modal-info{id}primero">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Datos del Docente</h4>
+            </div>
+            <form action="/parcial/editar/" method="post" class="form-horizontal" autocomplete="off">
+                <div class="modal-body">
+                    <div class="box-body">
+
+                        <div class="form-group">
+                            <label for="valor" class="col-sm-2 control-label">Nuevo valor parcial</label>
+                            <div class="col-sm-10">
+                                <input type="number" min="0" max="100" name="valor" value="{primero{id}}" class="form-control" id="valor" placeholder="Valor 0-100" required />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" name="matricula" value="{matricula}" />
+                <input type="hidden" name="idalumno" value="{idalumno}" />
+                <input type="hidden" name="curso" value="{id}" />
+                <input type="hidden" name="parcial" value="primero" />
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Actualizar</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal in" id="modal-info{id}segundo">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Datos del Docente</h4>
+            </div>
+            <form action="/parcial/editar/" method="post" class="form-horizontal" autocomplete="off">
+                <div class="modal-body">
+                    <div class="box-body">
+
+                        <div class="form-group">
+                            <label for="valor" class="col-sm-2 control-label">Nuevo valor parcial</label>
+                            <div class="col-sm-10">
+                                <input type="number" min="0" max="100" name="valor" value="{segundo{id}}" class="form-control" id="valor" placeholder="Valor 0-100" required />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" name="matricula" value="{matricula}" />
+                <input type="hidden" name="idalumno" value="{idalumno}" />
+                <input type="hidden" name="curso" value="{id}" />
+                <input type="hidden" name="parcial" value="segundo" />
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Actualizar</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal in" id="modal-info{id}tercero">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Datos del Docente</h4>
+            </div>
+            <form action="/parcial/editar/" method="post" class="form-horizontal" autocomplete="off">
+                <div class="modal-body">
+                    <div class="box-body">
+
+                        <div class="form-group">
+                            <label for="valor" class="col-sm-2 control-label">Nuevo valor parcial</label>
+                            <div class="col-sm-10">
+                                <input type="number" min="0" max="100" name="valor" value="{tercero{id}}" class="form-control" id="valor" placeholder="Valor 0-100" required />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" name="matricula" value="{matricula}" />
+                <input type="hidden" name="idalumno" value="{idalumno}" />
+                <input type="hidden" name="curso" value="{id}" />
+                <input type="hidden" name="parcial" value="tercero" />
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Actualizar</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!--PARCIAL_EDITAR2-->
+<!--PARCIAL_EDITAR-->
 
 </div>
 <!-- /.content-wrapper -->

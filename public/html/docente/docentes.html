@@ -36,39 +36,46 @@
                             </div>
                         </div>
                     </div>
+                    <div class="box-tools">
+                        <label for="buscar">Buscar docente por palabra clave: </label><input id="buscar" type="text" placeholder="Nombre o apellido">
+                    </div>
                     <!-- /.box-header -->
                     <div class="box-body table-responsive no-padding">
-                        <table class="table table-hover">
-                            <tr>
-                                <th>ID</th>
-                                <th>Usuario</th>
-                                <th>Nombre</th>
-                                <th>Correo Electrónico</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
-                            </tr>
+                        <table id="tabla" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Usuario</th>
+                                    <th>Nombre</th>
+                                    <th>Correo Electrónico</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
                             <!--LISTA_DOCENTES-->
-                            <tr>
-                                <td>{id}</td>
-                                <td>{usuario}</td>
-                                <td>{nombre}</td>
-                                <td>{correo}</td>
-                                <td>{activacion}</td>
-                                <td>
-                                    <div class="input-group-btn" data-toggle="tooltip" data-placement="left" title="Resultados de Evaluación">
-                                        <a href="/tutor/resultados/{id}" class="btn btn-success" >
-                                            <i class="fa fa-fw fa-bar-chart-o"></i>
-                                        </a>
-                                    </div>
-
-                                    <div class="input-group-btn" data-toggle="tooltip" data-placement="left" title="Editar">
-                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-info{id}">
-                                            <i class="fa fa-fw fa-pencil"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td>{id}</td>
+                                    <td>{usuario}</td>
+                                    <td>{nombre}</td>
+                                    <td>{correo}</td>
+                                    <td>{activacion}</td>
+                                    <td>
+                                        <div class="input-group-btn" data-toggle="tooltip" data-placement="left" title="Resultados de Evaluación">
+                                            <a href="/tutor/resultados/{id}" class="btn btn-success" >
+                                                <i class="fa fa-fw fa-bar-chart-o"></i>
+                                            </a>
+                                        </div>
+    
+                                        <div class="input-group-btn" data-toggle="tooltip" data-placement="left" title="Editar">
+                                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-info{id}">
+                                                <i class="fa fa-fw fa-pencil"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
                             <!--LISTA_DOCENTES-->
+                            </tbody>
                         </table>
                     </div>
                     <!-- /.box-body -->
