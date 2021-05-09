@@ -29,6 +29,30 @@ class AlumnoModel extends DataBase {
         $this->db_autocommit(true);
         return 'eliminado';
     }
+    
+    public function respuestaEncuesta($idAlumno, $pregunta1, $pregunta2, $pregunta3){
+        try{
+            $this->query= "INSERT INTO encuesta_alumnos (id, alumno, pregunta1, pregunta2, pregunta3) VALUES(null, $idAlumno, $pregunta1, '$pregunta2', '$pregunta3');";
+            $this->set_query();
+        } catch(Exception $e){
+            return 'error';
+        }
+        return 'success';
+    }
+    
+    public function validarEncuesta($id){
+        $this->query= "SELECT 1 FROM encuesta_alumnos WHERE alumno=$id LIMIT 1;";
+        $this->get_query();
+        $num_rows = count($this->rows);
+
+//        $data = array();
+//
+//        foreach ($this->rows as $key => $value) {
+//            array_push($data, $value);
+//        }
+
+        return $num_rows;
+    }
 
     public function edit($datos = array()) {
 
@@ -94,7 +118,7 @@ class AlumnoModel extends DataBase {
                     . " AND c.asignatura = a.id"
                     . " ORDER BY a.cuatrimestre DESC, cr.estado DESC";
         } else {
-            $this->query = "SELECT c.id, a.clave, a.nombre as 'asignatura', d.nombre as 'docente', c.grupo, cr.id as 'cursan'"
+            $this->query = "SELECT c.id, a.clave, a.nombre as 'asignatura', d.nombre as 'docente', d.id as 'idDocente', c.grupo, cr.id as 'cursan'"
                     . " FROM usuarios al, cursan cr, cursos c, usuarios d, asignaturas a"
                     . " WHERE al.usuario = '$matricula'"
                     . " AND cr.alumno = al.id "

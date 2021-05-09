@@ -87,6 +87,38 @@ class AlumnoView {
         print $footer;
     }
 
+    public function encuesta($datos = array(), $mensaje, $tipo) {
+
+        $header = file_get_contents("./public/html/alumno/alumno_header.html");
+        $footer = file_get_contents("./public/html/alumno/alumno_footer.html");
+
+        $usuario = $_SESSION['usuario'];
+        $nombre = $_SESSION['nombre'];
+
+        $header = file_get_contents("./public/html/alumno/alumno_header.html");
+        $datosHeader = array('usuario' => $usuario, 'nombre' => $nombre);
+
+        $tmpl = new Template($header);
+        $header = $tmpl->render($datosHeader);
+        if (empty($mensaje)) {
+            $contenido = file_get_contents("./public/html/alumno/alumno_encuesta.html");
+            $datosContenido = array('mensaje' => $mensaje, 'tipo' => '');
+            $tmpl = new Template($contenido);
+            $contenido = $tmpl->render_regex($datos, "DOCENTES");
+        } else {
+            $contenido = file_get_contents("./public/html/alumno/evaluacion_contestada.html");
+            $titulo ='Encuesta sobre docentes';
+            $datosContenido = array('titulo' => $titulo, 'mensaje' => $mensaje, 'tipo' => $tipo);
+        }
+
+        $tmpl = new Template($contenido);
+        $contenido = $tmpl->render($datosContenido);
+
+        print $header;
+        print $contenido;
+        print $footer;
+    }
+
     public function crear($mensaje = '') {
 
         $contenido = file_get_contents("./public/html/carrera/carrera_crear.html");
@@ -116,30 +148,26 @@ class AlumnoView {
         }
     }
 
-    public function parcialesAlumnos($alumnos, $listaCursos,$modelo) {
+    public function parcialesAlumnos($alumnos, $listaCursos, $modelo) {
 
         $usuario = $_SESSION['usuario'];
         $nombre = $_SESSION['nombre'];
 
-        $header = file_get_contents("./public/html/".$modelo."/".$modelo."_header.html");
+        $header = file_get_contents("./public/html/" . $modelo . "/" . $modelo . "_header.html");
         $datosHeader = array('usuario' => $usuario, 'nombre' => $nombre);
 
         $tmpl = new Template($header);
         $header = $tmpl->render($datosHeader);
 
-        $footer = file_get_contents("./public/html/".$modelo."/".$modelo."_footer.html");
-        $contenido = file_get_contents("./public/html/".$modelo."/".$modelo."_resultado.html");
+        $footer = file_get_contents("./public/html/" . $modelo . "/" . $modelo . "_footer.html");
+        $contenido = file_get_contents("./public/html/" . $modelo . "/" . $modelo . "_resultado.html");
 
-        $grupo = '';
-        if (isset($_POST['grupo']) && !empty($_POST['grupo']))
-            $grupo = ' DEL ' . $_POST['grupo'];
-        $tipo = '';
-        if (isset($_POST['estado']) && !empty($_POST['estado']))
-            $tipo = ' EN ' . $_POST['estado'];
+        $nombre = '';
+        $nombre = ' DE ' . $alumnos[0]['nombre'];
 
-        $datos = array('grupo' => $grupo, 'tipo' => $tipo, 'nombre' => $alumnos[0]['nombre']);
+        $datos = array('nombre' => $nombre);
         $objGrupo = (object) $datos;
-        
+
         $tml = new Template($contenido);
         $contenido = $tml->render($objGrupo);
 
@@ -148,7 +176,7 @@ class AlumnoView {
 
         $tmpl = new Template($contenido);
         $contenido = $tmpl->render_regex($alumnos, "ALUMNOS");
-        
+
         $tmpl = new Template($contenido);
         $contenido = $tmpl->render_regex($listaCursos, "PARCIAL_EDITAR");
 
@@ -161,19 +189,19 @@ class AlumnoView {
         print $footer;
     }
 
-    public function parciales($alumnos, $listaCursos,$modelo) {
+    public function parciales($alumnos, $listaCursos, $modelo) {
 
         $usuario = $_SESSION['usuario'];
         $nombre = $_SESSION['nombre'];
 
-        $header = file_get_contents("./public/html/".$modelo."/".$modelo."_header.html");
+        $header = file_get_contents("./public/html/" . $modelo . "/" . $modelo . "_header.html");
         $datosHeader = array('usuario' => $usuario, 'nombre' => $nombre);
 
         $tmpl = new Template($header);
         $header = $tmpl->render($datosHeader);
 
-        $footer = file_get_contents("./public/html/".$modelo."/".$modelo."_footer.html");
-        $contenido = file_get_contents("./public/html/".$modelo."/".$modelo."_resultado.html");
+        $footer = file_get_contents("./public/html/" . $modelo . "/" . $modelo . "_footer.html");
+        $contenido = file_get_contents("./public/html/" . $modelo . "/" . $modelo . "_resultado.html");
 
         $grupo = '';
         if (isset($_POST['grupo']) && !empty($_POST['grupo']))
@@ -185,7 +213,7 @@ class AlumnoView {
         $datos = array('grupo' => $grupo,
             'tipo' => $tipo);
         $objGrupo = (object) $datos;
-        
+
         $tml = new Template($contenido);
         $contenido = $tml->render($objGrupo);
 
@@ -199,6 +227,7 @@ class AlumnoView {
         print $contenido;
         print $footer;
     }
+
     public function editar($carrera = array()) {
 
         if (empty($carrera)) {

@@ -108,13 +108,13 @@ class TutorController {
 
         $cuatriModelo = new CuatrimestreModel();
         $cuatrimestre = $cuatriModelo->get(0);
-        
+
         //Escribe el parametro selected para el cuatrimestre activo]
         foreach ($cuatrimestre as $key => $value) {
-            if ($value['estado']==1) {
+            if ($value['estado'] == 1) {
                 $cuatrimestre[$key]['selected'] = 'selected';
-            } else{
-                $cuatrimestre[$key]['selected']= '';
+            } else {
+                $cuatrimestre[$key]['selected'] = '';
             }
         }
 
@@ -224,7 +224,6 @@ class TutorController {
             $totalEcuestados += $this->modelo->encuestados($curso["id"]);
         }
 
-        // echo "Total de encuestados " . $totalEcuestados . "<br>";
         $datos = array();
         $mensaje = "";
         $tipo = "";
@@ -236,32 +235,52 @@ class TutorController {
         } else {
             $this->modelo = new DocenteModel();
             $dimensiones = $this->modelo->getDimensiones();
-            $sumaPromedio = 0;
-            $numeroDimensiones = 0;
-            foreach ($dimensiones as $key => $dimension) {
 
+            foreach ($cursos as $curso) {
+                $sumaPromedio = 0;
+                $numeroDimensiones = 0;
+                $idCurso = $curso["id"];
+                $nombreAsignatura = $curso["nombre"];
+                $grupo = $curso["grupo"];
                 $this->modelo = new DocenteModel();
-                $encuestadosDimension = $this->modelo->puntosDimension($docente, $dimension["idDimension"]);
-                // numero de puntos por dimension
-                $puntosDimension = $dimension["puntos"];
-                if ($encuestadosDimension[0]['obtenidos'] != NULL) {
-                    $puntosObtenidos = $encuestadosDimension[0]['obtenidos'];
-                    $porcentaje = (100 * $puntosObtenidos) / ($puntosDimension * $totalEcuestados);
-                    //echo "Dimension ". $dimension["idDimension"]. " ".$puntosDimension . " -  " . $puntosDimension * $totalEcuestados . " $puntosObtenidos - $porcentaje <br>";
-                    $sumaPromedio += round($porcentaje);
-                    $numeroDimensiones++;
-                    $color = "danger";
-                    if ($porcentaje >= 90)
-                        $color = "success";
-                    else if ($porcentaje >= 80)
-                        $color = "info";
-                    else if ($porcentaje >= 70)
-                        $color = "warning";
-                    $datos[] = array("id" => $dimension["idDimension"], "dimension" => $dimension["dimension"], "color" => $color, "porcentaje" => round($porcentaje));
+                $totalEcuestadosCurso = $this->modelo->encuestados($idCurso);
+
+                echo "idCurso $idCurso Asignatura $nombreAsignatura Grupo $grupo <br>";
+                echo "total encuestado $totalEcuestadosCurso <br>";
+
+                foreach ($dimensiones as $key => $dimension) {
+
+                    $this->modelo = new DocenteModel();
+                    $encuestadosDimension = $this->modelo->puntosDimensionUnico($docente, $dimension["idDimension"], $idCurso);
+                    // numero de puntos por dimension
+                    $puntosDimension = $dimension["puntos"];
+                    if ($encuestadosDimension[0]['obtenidos'] != NULL) {
+                        $puntosObtenidos = $encuestadosDimension[0]['obtenidos'];
+                        $porcentaje = (100 * $puntosObtenidos) / ($puntosDimension * $totalEcuestadosCurso);
+
+                        echo "Dimension " . $dimension["idDimension"] . " " . $puntosDimension . " -  " . $puntosDimension * $totalEcuestadosCurso . " $puntosObtenidos - " . round($porcentaje) . " <br>";
+                        $sumaPromedio += round($porcentaje);
+                        $numeroDimensiones++;
+                        $color = "danger";
+                        if ($porcentaje >= 90)
+                            $color = "success";
+                        else if ($porcentaje >= 80)
+                            $color = "info";
+                        else if ($porcentaje >= 70)
+                            $color = "warning";
+                        $datos[] = array("id" => $dimension["idDimension"],
+                            "dimension" => $dimension["dimension"],
+                            "color" => $color,
+                            "porcentaje" => round($porcentaje));
+                    }
                 }
+                //exit();
+                $promedio = $sumaPromedio / $numeroDimensiones;
+                echo "Promedio $promedio <br>";
             }
-            //exit();
-            $promedio = $sumaPromedio / $numeroDimensiones;
+           /* echo "<pre>";
+            print_r($datos);
+            echo "</pre>";*/
             $color = "danger";
             if ($promedio >= 90)
                 $color = "success";
@@ -270,7 +289,7 @@ class TutorController {
             else if ($promedio >= 70)
                 $color = "warning";
 
-            $this->vista->resultados($datos, $promedio, $color, $mensaje, $tipo, $nombre, $docente, $cursos);
+            // $this->vista->resultadosUnicos($datos, $promedio, $color, $mensaje, $tipo, $nombre, $docente, $grupo_n, $asignatura);
         }
     }
 
@@ -302,7 +321,7 @@ class TutorController {
         }
 
 //         echo "Total de encuestados " . $totalEcuestados . "<br>";
-//         exit(0);
+        exit(0);
         $datos = array();
         $mensaje = "";
         $tipo = "";
@@ -311,32 +330,38 @@ class TutorController {
             $tipo = "callout-warning";
             $arg[0] = $docente;
             //$this->vista->resultados($arg);
-            header("Location: /tutor/resultados/".$docente);
+            header("Location: /tutor/resultados/" . $docente);
         } else {
             $this->modelo = new DocenteModel();
             $dimensiones = $this->modelo->getDimensiones();
-            $sumaPromedio = 0;
-            $numeroDimensiones = 0;
-            foreach ($dimensiones as $key => $dimension) {
 
-                $this->modelo = new DocenteModel();
-                $encuestadosDimension = $this->modelo->puntosDimensionUnico($docente, $dimension["idDimension"], $_POST['select']);
-                // numero de puntos por dimension
-                $puntosDimension = $dimension["puntos"];
-                if ($encuestadosDimension[0]['obtenidos'] != NULL) {
-                    $puntosObtenidos = $encuestadosDimension[0]['obtenidos'];
-                    $porcentaje = (100 * $puntosObtenidos) / ($puntosDimension * $totalEcuestados);
-                    //echo "Dimension ". $dimension["idDimension"]. " ".$puntosDimension . " -  " . $puntosDimension * $totalEcuestados . " $puntosObtenidos - $porcentaje <br>";
-                    $sumaPromedio += round($porcentaje);
-                    $numeroDimensiones++;
-                    $color = "danger";
-                    if ($porcentaje >= 90)
-                        $color = "success";
-                    else if ($porcentaje >= 80)
-                        $color = "info";
-                    else if ($porcentaje >= 70)
-                        $color = "warning";
-                    $datos[] = array("id" => $dimension["idDimension"], "dimension" => $dimension["dimension"], "color" => $color, "porcentaje" => round($porcentaje));
+            foreach ($cursos as $curso) {
+                $sumaPromedio = 0;
+                $numeroDimensiones = 0;
+                foreach ($dimensiones as $key => $dimension) {
+                    echo "id " . $curso["id"];
+                    echo "Nombre " . $curso["nombre"];
+                    echo "Grupo " . $curso["grupo"];
+                    $totalEcuestadosCurso = $this->modelo->encuestados($curso["id"]);
+                    $this->modelo = new DocenteModel();
+                    $encuestadosDimension = $this->modelo->puntosDimensionUnico($docente, $dimension["idDimension"], $_POST['select']);
+                    // numero de puntos por dimension
+                    $puntosDimension = $dimension["puntos"];
+                    if ($encuestadosDimension[0]['obtenidos'] != NULL) {
+                        $puntosObtenidos = $encuestadosDimension[0]['obtenidos'];
+                        $porcentaje = (100 * $puntosObtenidos) / ($puntosDimension * $totalEcuestadosCurso);
+                        echo "Dimension " . $dimension["idDimension"] . " " . $puntosDimension . " -  " . $puntosDimension * $totalEcuestados . " $puntosObtenidos - $porcentaje <br>";
+                        $sumaPromedio += round($porcentaje);
+                        $numeroDimensiones++;
+                        $color = "danger";
+                        if ($porcentaje >= 90)
+                            $color = "success";
+                        else if ($porcentaje >= 80)
+                            $color = "info";
+                        else if ($porcentaje >= 70)
+                            $color = "warning";
+                        $datos[] = array("id" => $dimension["idDimension"], "dimension" => $dimension["dimension"], "color" => $color, "porcentaje" => round($porcentaje));
+                    }
                 }
             }
             //exit();

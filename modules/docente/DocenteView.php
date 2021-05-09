@@ -21,7 +21,7 @@ class DocenteView {
         print $footer;
     }
 
-    public function resultados( $datosDimensiones, $promedio, $color, $mensaje, $tipo ) {
+    public function resultados($datosDimensiones, $promedio, $color, $cursos, $docente, $mensaje, $tipo) {
         $usuario = $_SESSION['usuario'];
         $nombre = $_SESSION['nombre'];
 
@@ -33,19 +33,53 @@ class DocenteView {
 
         $footer = file_get_contents("./public/html/docente/docente_footer.html");
         $contenido = file_get_contents("./public/html/docente/docente_resultados.html");
-        
+
         $tmpl = new Template($contenido);
         $contenido = $tmpl->render_regex($datosDimensiones, "LISTA_DIMENSIONES");
-        
-        $datosContenido = array('color' => $color, 'promedio' => $promedio, "mensaje" => $mensaje, "tipo" => $tipo);
+
+        $tmpl = new Template($contenido);
+        $contenido = $tmpl->render_regex($cursos, "LISTA_CURSOS");
+
+        $datosContenido = array('docente' => $nombre, 'curso' => $docente, 'color' => $color, 'promedio' => $promedio, "mensaje" => $mensaje, "tipo" => $tipo);
         $tmpl = new Template($contenido);
         $contenido = $tmpl->render($datosContenido);
-        
+
         print $header;
         print $contenido;
         print $footer;
     }
-   
+
+    public function resultadosUnicos($datosDimensiones, $promedio, $color, $mensaje, $tipo, $grupo_n, $asignatura, $listaCursos) {
+        $usuario = $_SESSION['usuario'];
+        $nombre = $_SESSION['nombre'];
+
+        $header = file_get_contents("./public/html/docente/docente_header.html");
+        $datosHeader = array('usuario' => $usuario, 'nombre' => $nombre);
+
+        $tmpl = new Template($header);
+        $header = $tmpl->render($datosHeader);
+
+        $footer = file_get_contents("./public/html/docente/docente_footer.html");
+        $contenido = file_get_contents("./public/html/docente/docente_resultados_unico.html");
+
+        $tmpl = new Template($contenido);
+        $contenido = $tmpl->render_regex($datosDimensiones, "LISTA_DIMENSIONES");
+        
+        $tmpl = new Template($contenido);
+        $contenido = $tmpl->render_regex($listaCursos, "LISTA_CURSOS");
+
+        $datosContenido = array('color' => $color, 'promedio' => $promedio,
+            "mensaje" => $mensaje, "tipo" => $tipo, 'docente' => $nombre,
+            'nombre_grupo' => $grupo_n, 'nombre_asignatura' => $asignatura,
+            'curso' => $_SESSION['id']);
+        $tmpl = new Template($contenido);
+        $contenido = $tmpl->render($datosContenido);
+
+        print $header;
+        print $contenido;
+        print $footer;
+    }
+
     public function alumnos($cursos = array(), $mensaje, $tipo) {
         $usuario = $_SESSION['usuario'];
         $nombre = $_SESSION['nombre'];
@@ -160,7 +194,7 @@ class DocenteView {
         print $contenido;
         print $footer;
     }
-    
+
     public function evaluaciones($cursos = array(), $mensaje, $tipo) {
         $usuario = $_SESSION['usuario'];
         $nombre = $_SESSION['nombre'];
@@ -190,6 +224,7 @@ class DocenteView {
         print $contenido;
         print $footer;
     }
+
 //    public function evaluaciones($cursos = array(), $mensaje, $tipo) {
 //        $usuario = $_SESSION['usuario'];
 //        $nombre = $_SESSION['nombre'];
@@ -216,7 +251,7 @@ class DocenteView {
 //        print $contenido;
 //        print $footer;
 //    }
-    
+
     public function parciales($cursos = array(), $mensaje, $tipo) {
         $usuario = $_SESSION['usuario'];
         $nombre = $_SESSION['nombre'];

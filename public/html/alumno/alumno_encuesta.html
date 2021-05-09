@@ -1,0 +1,73 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Encuesta sobre docentes
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Alumno</a></li>
+        <li class="active">Encuesta</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="callout {tipo}">                
+                <p>{mensaje}</p>
+            </div>
+        </div>
+    </div>
+
+    <section class="content container-fluid" id="encuesta">
+        <div>
+            <p>Esta encuesta está destinada a conocer tu opinión sobre los docentes y las actividades desarrolladas en clase. Por favor, contesta honestamente, pues esto ayudará a proponer mejoras en el desarrollo de las actividades académicas.</p>
+        </div>
+        
+        <form action="/alumno/encuesta/" method="post" class="form-horizontal" autocomplete="off">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <!--<label class="col-sm-2 control-label">Cuatrimestre</label>-->
+                                <div class="col-sm-10">
+                                    <p>1. ¿Cuál de los docentes que te imparte clase en este cuatrimestre crees que lo hace de mejor forma?<p>
+                                    <select class="form-control" name="pregunta1" required >
+                                        <option value="" >Seleccionar Docente</option>
+                                        <!--DOCENTES-->
+                                        <option value="{idDocente}">{docente}</option>
+                                        <!--DOCENTES-->
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-10">
+                                    <p>2. ¿Qué actividades que realiza el docente son las que consideras diferencían su clase?<p>
+                                    <textarea rows='8' name="pregunta2" class="form-control" id="pregunta3" placeholder="El docente pregunta qué actividades queremos desarrollar.../El docente interactúa con los alumnos haciendo.../El docente resuelve ejercicios como ejemplo de lo visto en clase..." minlength="30" maxlength="300" required ></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-10">
+                                    <p>3. ¿Qué actividades que has realizado consideras han ayudado a mejorar su clase?<p>
+                                    <textarea rows='6' name="pregunta3" class="form-control" id="pregunta3" placeholder="Participo activamente en.../Realizo preguntas sobre.../Sugiero temas de investigación, como..." minlength="30" maxlength="200" required ></textarea>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <button type="submit" class="btn btn-success">Guardar</button>
+                            </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+
+        </form>
+
+
+    </section>
+    <!-- /.content -->
+  </div>

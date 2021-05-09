@@ -75,7 +75,24 @@
                
             </div>
             <!-- /.box-body -->
-            <div class="box-footer"
+                        <div class="box-footer">
+                <section class="content-header">
+                    <h2>Selección de gráfica por curso</h2>
+                </section>
+
+
+                <div class="container">
+                    <form action="/docente/resultadosUnico" method="post" >
+                        <label>Curso: </label>
+                        <select name="select" id="select">
+                            <!--LISTA_CURSOS-->
+                            <option value="{id}"> {grupo} - {nombre} </option>
+                            <!--LISTA_CURSOS-->
+                            <input type="hidden" name="docente" value="{curso}">
+                        </select>
+                        <input type="submit" value="Seleccionar">
+                    </form>
+                </div>
 
             </div>
             <!-- /.box-footer-->

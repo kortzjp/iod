@@ -78,15 +78,15 @@
 
 
                 <div class="container">
-                    <form action="/tutor/resultadosUnico" method="post" target="_blank">
+                    <form action="/tutor/resultadosUnico" method="post" >
                         <label>Curso: </label>
                         <select name="select" id="select">
                             <!--LISTA_CURSOS-->
-                            <option value="{id}">{nombre}</option>
+                            <option value="{id}"> {grupo} - {nombre} </option>
                             <!--LISTA_CURSOS-->
                             <input type="hidden" name="docente" value="{curso}">
                         </select>
-                        <input type="submit" name="Seleccionar">
+                        <input type="submit" value="Seleccionar">
                     </form>
                 </div>
 

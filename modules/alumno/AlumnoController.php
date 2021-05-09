@@ -64,6 +64,77 @@ class AlumnoController {
             }
         }
     }
+    
+    
+    public function comenzar_encuesta($arg = array()) {
+        HandlerSession()->check_session(USER_ALUM);
+        
+        $idUsuario= $_SESSION['id'];
+        $datos= array();
+        $mensaje='';
+        $tipo='';
+        $listaDocentes= array();
+        
+        if (isset($arg[0]) && $arg[0] == 'success') {
+            $mensaje = 'Has contestado esta encuesta. <br> Gracias por tu participaciÃ³n';
+            $tipo = 'callout-success';
+        } else if (isset($arg[0]) && $arg[0] == 'error') {
+            $mensaje = 'Ha ocurrido un error al contestar la encuesta.';
+            $tipo = 'callout-danger';
+        }
+        
+        // si ya contesto la encuesta
+        $respuesta = $this->modelo->validarEncuesta($idUsuario);
+
+        if ( $respuesta > 0) {
+            $mensaje = "Gracias por contestar la encuesta";
+            $tipo = 'callout-success';
+            $this->vista->encuesta($listaDocentes, $mensaje, $tipo);
+        } else {
+            
+            $matricula= $_SESSION['usuario'];
+            $cuatrimestreModel= new CuatrimestreModel();
+            $datosCuatrimestre = $cuatrimestreModel->get(1);
+            $cuatrimestre= $datosCuatrimestre[0]['id'];
+            //obtener datos de las asignaturas cursadas
+            $listaAsignaturas= $this->modelo->asignaturas_alumno($matricula, $cuatrimestre);
+            
+            $n=0;
+            //obtener la lista de docentes de las asignaturas
+            foreach($listaAsignaturas as $key => $value){
+                $listaDocentes[$key]['docente']= $value['docente'];
+                 $listaDocentes[$key]['idDocente']= $value['idDocente'];
+                $n++;
+            }
+            //eliminar datos repetidos (imparte 2+ materias)
+            for($i=0; $i<$n; $i++){
+                for($j=1; $j<$n-$i-1; $j++){
+                    if($listaDocentes[$i]['docente']==$listaDocentes[$j]['docente']){
+                        unset($listaDocentes[$j]);
+                    }
+                }
+            }
+            
+            $this->vista->encuesta($listaDocentes, $mensaje, $tipo);
+        }
+    }
+    
+    public function encuesta(){
+        HandlerSession()->check_session(USER_ALUM);
+        
+        $idAlumno= $_SESSION['id'];
+        $pregunta1= $_POST['pregunta1'];
+        $pregunta2= recoge('pregunta2'); //$_POST['pregunta2'];
+        $pregunta3= recoge('pregunta3');
+        
+        $guardar= $this->modelo->respuestaEncuesta($idAlumno, $pregunta1, $pregunta2, $pregunta3);
+        if($guardar==true){
+            header('Location: /alumno/comenzar_encuesta/success');
+        } else{
+            header('Location: /alumno/comenzar_encuesta/error');
+        }
+        
+    }
 
     public function guardarevaluacion($arg = array()) {
         $data = array();
@@ -427,7 +498,7 @@ class AlumnoController {
         echo $mensaje;
     }
     
-    //convierte el promedio de una calificaci¨®n final m¨²ltiplo de 10
+    //convierte el promedio de una calificaciï¿½ï¿½n final mï¿½ï¿½ltiplo de 10
     private function redondear($dato)
     {
         $dato= number_format($dato,0);
